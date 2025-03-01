@@ -1,0 +1,82 @@
+<div class="product-card {% if product.available %}available{% else %}sold-out{% endif %}" data-product-card>
+  <div class="product-card__image-wrapper">
+    <img class="product-card__image" 
+         src="{{ product.featured_image | img_url: '400x400', crop: 'center' }}"
+         alt="{{ product.featured_image.alt | escape }}"
+         loading="lazy"
+         width="400"
+         height="400">
+    <div class="product-card__glitch-overlay"></div>
+    
+    {% if product.compare_at_price > product.price %}
+      <span class="product-card__badge neon-text">{{ 'products.product.sale' | t }}</span>
+    {% endif %}
+  </div>
+
+  <div class="product-card__info">
+    <h3 class="product-card__title">
+      <a href="{{ product.url }}" class="neon-text">{{ product.title }}</a>
+    </h3>
+    
+    <div class="product-card__price">
+      <span class="product-card__price-current">{{ product.price | money }}</span>
+      {% if product.compare_at_price > product.price %}
+        <s class="product-card__price-compare">{{ product.compare_at_price | money }}</s>
+      {% endif %}
+    </div>
+
+    <button class="product-card__add-to-cart button button--neon"
+            data-add-to-cart
+            {% unless product.available %}disabled{% endunless %}>
+      {% if product.available %}
+        {{ 'products.product.add_to_cart' | t }}
+      {% else %}
+        {{ 'products.product.sold_out' | t }}
+      {% endif %}
+    </button>
+  </div>
+</div>
+
+{% stylesheet %}
+.product-card {
+  background: rgba(var(--background-primary-rgb), 0.8);
+  border: 1px solid var(--glow-primary);
+  padding: var(--space-4);
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px rgba(var(--glow-primary-rgb), 0.3);
+}
+
+.product-card__glitch-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 65%,
+    rgba(var(--glow-primary-rgb), 0.1) 70%,
+    rgba(var(--glow-primary-rgb), 0.2) 80%,
+    transparent 90%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.product-card:hover .product-card__glitch-overlay {
+  opacity: 1;
+  animation: glitch-slide 1s linear infinite;
+}
+
+@keyframes glitch-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+{% endstylesheet %}

@@ -1,0 +1,43 @@
+<div class="loading-indicator" data-loading-indicator>
+  <div class="loading-indicator__spinner"></div>
+  <div class="loading-indicator__text neon-text">{{ text | default: 'Loading...' }}</div>
+</div>
+
+{% stylesheet %}
+.loading-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.loading-indicator__spinner {
+  width: 40px;
+  height: 40px;
+  border: 2px solid transparent;
+  border-top-color: var(--glow-primary);
+  border-right-color: var(--glow-secondary);
+  border-radius: 50%;
+  animation: cyber-spin 1s linear infinite;
+}
+
+.loading-indicator__text {
+  font-family: var(--font-heading-family);
+  font-size: 1.2em;
+  animation: neon-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes cyber-spin {
+  0% {
+    transform: rotate(0deg);
+    border-width: 2px;
+  }
+  50% {
+    border-width: 1px;
+  }
+  100% {
+    transform: rotate(360deg);
+    border-width: 2px;
+  }
+}
+{% endstylesheet %}

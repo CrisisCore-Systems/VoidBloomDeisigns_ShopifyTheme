@@ -1,0 +1,84 @@
+<div class="notification {% if type %}notification--{{ type }}{% endif %}"
+     data-notification
+     role="alert">
+  <div class="notification__content">
+    <span class="notification__message">{{ message }}</span>
+    {% if dismissible %}
+      <button class="notification__close" data-notification-close>
+        {% render 'icon-close' %}
+      </button>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+.notification {
+  position: fixed;
+  bottom: var(--space-4);
+  right: var(--space-4);
+  z-index: var(--z-index-notification);
+  max-width: 400px;
+  background: var(--background-primary);
+  border: 1px solid var(--glow-primary);
+  box-shadow: 0 0 15px rgba(var(--glow-primary-rgb), 0.3);
+  padding: var(--space-4);
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.notification.active {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.notification--success {
+  border-color: var(--glow-accent);
+  box-shadow: 0 0 15px rgba(var(--glow-accent-rgb), 0.3);
+}
+
+.notification--error {
+  border-color: var(--glow-secondary);
+  box-shadow: 0 0 15px rgba(var(--glow-secondary-rgb), 0.3);
+}
+{% endstylesheet %}
+
+{% javascript %}
+class NotificationComponent {
+  constructor(element) {
+    this.notification = element;
+    this.closeButton = element.querySelector('[data-notification-close]');
+    this.bindEvents();
+    this.show();
+  }
+
+  bindEvents() {
+    if (this.closeButton) {
+      this.closeButton.addEventListener('click', () => this.hide());
+    }
+  }
+
+  show() {
+    requestAnimationFrame(() => {
+      this.notification.classList.add('active');
+    });
+
+    if (!this.closeButton) {
+      setTimeout(() => this.hide(), 3000);
+    }
+  }
+
+  hide() {
+    this.notification.classList.remove('active');
+    setTimeout(() => {
+      this.notification.remove();
+    }, 300);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-notification]').forEach(notification => {
+    new NotificationComponent(notification);
+  });
+});
+{% endjavascript %}

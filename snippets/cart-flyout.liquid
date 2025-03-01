@@ -1,0 +1,64 @@
+<div class="cart-flyout" data-cart-flyout>
+  <div class="cart-flyout__overlay"></div>
+  <div class="cart-flyout__content">
+    <div class="cart-flyout__header">
+      <h2 class="neon-text">{{ 'cart.title' | t }}</h2>
+      <button class="cart-flyout__close" data-cart-close>
+        {% render 'icon-close' %}
+      </button>
+    </div>
+    
+    <div class="cart-flyout__body">
+      {% render 'cart-items' %}
+    </div>
+
+    <div class="cart-flyout__footer">
+      {% render 'cart-totals' %}
+      <button class="button button--neon-full" data-checkout-button>
+        {{ 'cart.checkout' | t }}
+      </button>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+.cart-flyout {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-index-drawer);
+  visibility: hidden;
+  
+  &.active {
+    visibility: visible;
+    
+    .cart-flyout__overlay {
+      opacity: 1;
+    }
+    
+    .cart-flyout__content {
+      transform: translateX(0);
+    }
+  }
+}
+
+.cart-flyout__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(var(--background-primary-rgb), 0.8);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cart-flyout__content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(400px, 100vw);
+  height: 100%;
+  background: var(--background-primary);
+  border-left: 2px solid var(--glow-primary);
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+{% endstylesheet %}

@@ -1,0 +1,16 @@
+[environments.development]
+store = "your-store.myshopify.com"
+password = "shptka_xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+theme = ["#"] # Use numbers for existing themes or "live" for production theme
+ignore = [
+  "node_modules",
+  ".git",
+  ".github",
+  ".theme-check.yml",
+  "*.md"
+]
+
+[environments.production]
+store = "your-store.myshopify.com"
+password = "shptka_xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+theme = ["live"]
