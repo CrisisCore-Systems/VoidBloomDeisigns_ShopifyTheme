@@ -1,0 +1,49 @@
+<div class="announcement-bar" style="background-color: {{ section.settings.color_bg }}" data-section-id="{{ section.id }}" data-section-type="announcement-bar">
+  {%- if section.settings.text != blank -%}
+    <div class="page-width">
+      <p class="announcement-bar__message {{ section.settings.text_alignment }}">
+        {{ section.settings.text | escape }}
+      </p>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Announcement text",
+      "default": "Welcome to our store"
+    },
+    {
+      "type": "color",
+      "id": "color_bg",
+      "label": "Background",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
+  ]
+}
+{% endschema %}

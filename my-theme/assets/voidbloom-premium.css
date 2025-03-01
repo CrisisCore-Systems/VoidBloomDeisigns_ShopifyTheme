@@ -1,0 +1,89 @@
+/* Premium UI Components */
+.premium-card {
+  @apply relative overflow-hidden backdrop-blur-sm;
+  background: linear-gradient(135deg, rgba(255,0,127,0.1), rgba(0,255,255,0.1));
+}
+
+.premium-hero {
+  --neon-pink: #FF007F;
+  --neon-blue: #00FFFF;
+  --neon-purple: #9D00FF;
+}
+
+.premium-text {
+  background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple), var(--neon-blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  position: relative;
+  animation: gradientFlow 8s ease infinite;
+}
+
+/* Hover Effects */
+.hover-glow {
+  transition: all 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(255,0,127,0.5);
+  transform: translateY(-2px);
+}
+
+/* Premium Animations */
+@keyframes premium-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.premium-float {
+  position: absolute;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--neon-pink), transparent 70%);
+  opacity: 0.1;
+  filter: blur(1rem);
+  animation: float 6s ease-in-out infinite;
+  animation-delay: var(--animation-delay);
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(0, -2rem); }
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Scroll Reveal Animations */
+.reveal-fade-up {
+  animation: revealFadeUp 0.8s cubic-bezier(0.2, 0.7, 0.4, 1) forwards;
+}
+
+@keyframes revealFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced Hover Effects */
+.premium-hover {
+  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.4, 1),
+              box-shadow 0.4s cubic-bezier(0.2, 0.7, 0.4, 1);
+}
+
+.premium-hover:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 20px 40px rgba(255, 0, 127, 0.2),
+    0 0 20px rgba(255, 0, 127, 0.1),
+    0 0 0 1px rgba(255, 0, 127, 0.1);
+}

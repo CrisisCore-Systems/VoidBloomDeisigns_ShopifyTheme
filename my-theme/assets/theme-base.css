@@ -1,0 +1,35 @@
+:root {
+  /* Base colors */
+  --color-base-text: 255, 255, 255;
+  --color-base-background: 3, 3, 3;
+  --color-base-accent: 255, 0, 127;
+  
+  /* Element colors */
+  --color-text: rgb(var(--color-base-text));
+  --color-background: rgb(var(--color-base-background));
+  --color-accent: rgb(var(--color-base-accent));
+  
+  /* Typography */
+  --font-heading-family: Orbitron, sans-serif;
+  --font-body-family: Rajdhani, sans-serif;
+  --font-size-base: 16px;
+  
+  /* Spacing */
+  --spacing-tight: 0.5rem;
+  --spacing-base: 1rem;
+  --spacing-loose: 1.5rem;
+  --spacing-extra-loose: 2rem;
+}
+
+/* Base element styles */
+body {
+  font-family: var(--font-body-family);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  color: var(--color-text);
+  background-color: var(--color-background);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading-family);
+}

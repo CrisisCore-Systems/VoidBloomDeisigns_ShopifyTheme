@@ -1,0 +1,9 @@
+/* Core cyberpunk theme styles */
+.cyber-grid {
+  background-image: linear-gradient(var(--glow-primary) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--glow-primary) 1px, transparent 1px);
+  background-size: 30px 30px;
+  opacity: 0.1;
+}
+
+/* ... rest of cyberpunk base styles */

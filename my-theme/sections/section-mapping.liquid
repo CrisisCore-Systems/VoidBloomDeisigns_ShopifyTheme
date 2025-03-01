@@ -1,0 +1,8 @@
+{% assign section_mapping = 
+  "home: hero-banner,featured-collection,product-grid;
+   collection: collection-header,product-grid,newsletter;
+   product: product-gallery,product-info,related-products;
+   cart: cart-items,cart-summary,featured-products"
+%}
+
+{% assign page_sections = section_mapping[template] | split: ',' %}

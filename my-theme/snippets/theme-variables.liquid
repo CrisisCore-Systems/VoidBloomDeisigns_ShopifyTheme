@@ -1,0 +1,22 @@
+<style>
+  :root {
+    /* Theme colors */
+    --glow-primary: {{ settings.neon_primary | default: '#00FF41' }};
+    --glow-primary-rgb: {{ settings.neon_primary | color_to_rgb | replace: 'rgb(', '' | replace: ')', '' }};
+    --glow-secondary: {{ settings.neon_secondary | default: '#FF00FF' }};
+    --glow-accent: {{ settings.neon_accent | default: '#00FFFF' }};
+    
+    /* Animation settings */
+    --animation-speed: {{ settings.animation_speed | default: '1' }}s;
+    --glow-intensity: {{ settings.glow_intensity | default: '50' }}%;
+    
+    /* Layout settings */
+    --page-width: {{ settings.page_width | default: '1200' }}px;
+    --space-unit: {{ settings.space_unit | default: '16' }}px;
+    
+    /* Z-index layers */
+    --z-index-dropdown: 100;
+    --z-index-header: 200;
+    --z-index-modal: 300;
+  }
+</style>

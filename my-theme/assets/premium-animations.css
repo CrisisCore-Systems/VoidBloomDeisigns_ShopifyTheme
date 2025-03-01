@@ -1,0 +1,47 @@
+.premium-product-card {
+  --card-bg: rgba(20, 20, 30, 0.8);
+  --card-border: rgba(255, 0, 127, 0.2);
+  
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(10px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.premium-product-card:hover {
+  --card-border: rgba(255, 0, 127, 0.6);
+  transform: translateY(-4px);
+  box-shadow: 
+    0 0 20px rgba(255, 0, 127, 0.2),
+    0 0 40px rgba(255, 0, 127, 0.1);
+}
+
+.premium-badge {
+  background: linear-gradient(135deg, #FF007F, #9D00FF);
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 0 10px rgba(255, 0, 127, 0.5);
+}
+
+@keyframes premium-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.premium-loading {
+  background: linear-gradient(
+    90deg,
+    var(--card-bg) 25%,
+    rgba(255, 0, 127, 0.1) 50%,
+    var(--card-bg) 75%
+  );
+  background-size: 200% 100%;
+  animation: premium-shimmer 1.5s infinite;
+}

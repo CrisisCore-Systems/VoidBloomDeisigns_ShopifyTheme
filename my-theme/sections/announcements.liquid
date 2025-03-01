@@ -1,0 +1,29 @@
+{% schema %}
+{
+  "name": "Announcements",
+  "max_blocks": 5,
+  "settings": [],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Announce something here"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<div class="announcements">
+  {% for block in section.blocks %}
+    <div class="announcement" {{ block.shopify_attributes }}>
+      {{ block.settings.text }}
+    </div>
+  {% endfor %}
+</div>

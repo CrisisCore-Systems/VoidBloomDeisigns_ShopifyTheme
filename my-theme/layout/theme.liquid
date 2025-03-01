@@ -1,0 +1,101 @@
+<!doctype html>
+<html class="premium-theme no-js" lang="{{ shop.locale }}" dir="{{ direction }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    
+    <!-- Enhanced Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' *.shopify.com; img-src 'self' data: *.shopify.com *.shopifycdn.com; style-src 'self' 'unsafe-inline' *.shopify.com *.shopifycdn.com; script-src 'self' 'unsafe-inline' *.shopify.com *.shopifycdn.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
+    
+    <!-- Performance Optimized Resource Hints -->
+    {% render 'resource-hints' %}
+    
+    <!-- PWA and Theme Setup -->
+    {% render 'pwa-setup' %}
+    
+    <!-- SEO and Meta Tags -->
+    {% render 'meta-tags' %}
+    
+    <!-- Fonts and Styles -->
+    {% render 'fonts' %}
+    {% render 'theme-variables' %}
+    
+    <!-- Critical CSS -->
+    <style>
+      {% render 'critical-css' %}
+    </style>
+    
+    <!-- Deferred CSS -->
+    {{ 'voidbloom-base.css' | asset_url | stylesheet_tag: preload: true }}
+    {{ 'cyberpunk-base.css' | asset_url | stylesheet_tag: preload: true }}
+    {{ 'voidbloom-premium.css' | asset_url | stylesheet_tag }}
+    {{ 'components.css' | asset_url | stylesheet_tag }}
+
+    <!-- Enhanced Error Boundary -->
+    <script>
+      window.errorBoundary = {
+        errors: [],
+        catch: function(error) {
+          this.errors.push({
+            message: error.message,
+            stack: error.stack,
+            timestamp: new Date().toISOString(),
+            url: window.location.href
+          });
+          
+          // Log to monitoring service if available
+          if (window.errorLoggingService) {
+            window.errorLoggingService.log(error);
+          }
+          
+          return false;
+        }
+      };
+      window.onerror = (msg, url, line, col, error) => window.errorBoundary.catch(error);
+      window.onunhandledrejection = (event) => window.errorBoundary.catch(event.reason);
+    </script>
+
+    {{ content_for_header }}
+  </head>
+  <body class="premium-theme">
+    {% section 'loading-screen' %}
+    {% section 'custom-cursor' %}
+    
+    <a class="skip-to-content-link" href="#MainContent">
+      {{ 'accessibility.skip_to_text' | t }}
+    </a>
+    
+    {% section 'header' %}
+    
+    <main id="MainContent" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+    
+    {% section 'footer' %}
+    
+    {% render 'cart-drawer' %}
+    
+    <!-- Deferred Scripts -->
+    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'theme-utils.js' | asset_url }}" defer="defer"></script>
+    
+    <!-- Initialize Theme -->
+    <script>
+      document.documentElement.className = document.documentElement.className.replace('no-js', '');
+      
+      window.themeConfig = {
+        routes: {{ routes | json }},
+        shopUrl: '{{ request.origin }}',
+        settings: {{ settings | json }}
+      };
+      
+      window.addEventListener('DOMContentLoaded', () => {
+        window.themeUtils.initializeFeatures();
+      });
+    </script>
+  </body>
+</html>

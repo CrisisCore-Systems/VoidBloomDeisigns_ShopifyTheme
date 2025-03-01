@@ -1,0 +1,13 @@
+<div class="cyberpunk-hero">
+    <div class="cyberpunk-hero__grid-pattern"></div>
+    <div class="cyberpunk-hero__content">
+      <h1 class="cyberpunk-hero__title gradient-text">{{ section.settings.heading }}</h1>
+      <div class="cyberpunk-hero__text neon-text">{{ section.settings.subheading }}</div>
+      {% if section.settings.button_label != blank %}
+        <a href="{{ section.settings.button_link }}" class="cyberpunk-button">
+          {{ section.settings.button_label | escape }}
+        </a>
+      {% endif %}
+    </div>
+    <div class="cyberpunk-hero__scan-line"></div>
+  </div>

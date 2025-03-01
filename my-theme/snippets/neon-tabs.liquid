@@ -1,0 +1,110 @@
+<div class="neon-tabs" data-tabs>
+  <div class="neon-tabs__list" role="tablist">
+    {% for tab in tabs %}
+      <button class="neon-tabs__tab {% if forloop.first %}active{% endif %}"
+              role="tab"
+              data-tab-trigger="{{ tab.id }}"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              aria-controls="panel-{{ tab.id }}">
+        {{ tab.title }}
+        <span class="neon-tabs__glitch"></span>
+      </button>
+    {% endfor %}
+  </div>
+
+  <div class="neon-tabs__content">
+    {% for tab in tabs %}
+      <div class="neon-tabs__panel {% if forloop.first %}active{% endif %}"
+           id="panel-{{ tab.id }}"
+           role="tabpanel"
+           data-tab-panel="{{ tab.id }}"
+           aria-labelledby="tab-{{ tab.id }}">
+        {{ tab.content }}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+.neon-tabs {
+  --tab-border-size: 2px;
+  --tab-glow-intensity: 0.5;
+  
+  background: rgba(var(--background-secondary-rgb), 0.3);
+  border: var(--tab-border-size) solid var(--glow-primary);
+  padding: var(--space-4);
+}
+
+.neon-tabs__tab {
+  position: relative;
+  background: none;
+  border: var(--tab-border-size) solid transparent;
+  color: var(--text-color);
+  padding: 0.75em 1.5em;
+  font-family: var(--font-heading-family);
+  cursor: pointer;
+  transition: all 0.3s;
+  
+  &.active {
+    border-color: var(--glow-primary);
+    color: var(--glow-primary);
+    text-shadow: 0 0 10px rgba(var(--glow-primary-rgb), var(--tab-glow-intensity));
+  }
+  
+  &:hover .neon-tabs__glitch {
+    opacity: 1;
+  }
+}
+
+.neon-tabs__glitch {
+  position: absolute;
+  inset: -2px;
+  background: var(--glow-primary);
+  opacity: 0;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  animation: tab-glitch 0.2s infinite;
+}
+
+@keyframes tab-glitch {
+  0% { clip-path: inset(40% 0 61% 0); }
+  20% { clip-path: inset(92% 0 1% 0); }
+  40% { clip-path: inset(43% 0 1% 0); }
+  60% { clip-path: inset(25% 0 58% 0); }
+  80% { clip-path: inset(54% 0 7% 0); }
+  100% { clip-path: inset(58% 0 43% 0); }
+}
+
+class NeonTabs {
+  constructor(element) {
+    this.element = element;
+    this.triggers = this.element.querySelectorAll('[data-tab-trigger]');
+    this.panels = this.element.querySelectorAll('[data-tab-panel]');
+    
+    this.bindEvents();
+  }
+
+  bindEvents() {
+    this.triggers.forEach(trigger => {
+      trigger.addEventListener('click', () => this.switchTab(trigger));
+    });
+  }
+
+  switchTab(trigger) {
+    const targetId = trigger.dataset.tabTrigger;
+    
+    this.triggers.forEach(t => {
+      t.classList.toggle('active', t === trigger);
+      t.setAttribute('aria-selected', t === trigger);
+    });
+    
+    this.panels.forEach(panel => {
+      panel.classList.toggle('active', panel.dataset.tabPanel === targetId);
+    });
+    
+    window.animationController?.glitch(trigger);
+  }
+}
+
+document.querySelectorAll('[data-tabs]').forEach(tabs => {
+  new NeonTabs(tabs);
+});

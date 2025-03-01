@@ -1,0 +1,24 @@
+<div class="premium-features-wrapper backdrop-blur-sm">
+  <!-- 3D Product View -->
+  {% if product.metafields.custom.model_3d %}
+    <div class="premium-3d-view" data-model-url="{{ product.metafields.custom.model_3d }}">
+      <button class="premium-button view-3d-button">
+        <span class="neon-text">View in 3D</span>
+      </button>
+    </div>
+  {% endif %}
+
+  <!-- Premium Badge -->
+  {% if product.tags contains 'premium' %}
+    <div class="premium-badge">
+      <span class="gradient-text">Premium</span>
+    </div>
+  {% endif %}
+
+  <!-- AR View Button -->
+  {% if product.metafields.custom.ar_enabled %}
+    <button class="premium-ar-button" data-ar-viewer>
+      <span class="neon-text">View in AR</span>
+    </button>
+  {% endif %}
+</div>

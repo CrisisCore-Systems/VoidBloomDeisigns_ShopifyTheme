@@ -1,0 +1,16 @@
+{% assign component_data = component | append: '.json' | asset_url | json %}
+
+<div class="component-wrapper" data-component="{{ component }}">
+  <div class="component-loader" hidden>
+    <div class="neon-spinner"></div>
+  </div>
+  
+  <div class="component-error" hidden>
+    <p class="text-critical">{{ 'components.errors.loading' | t }}</p>
+    <button class="btn-secondary retry-button">{{ 'components.buttons.retry' | t }}</button>
+  </div>
+  
+  <script>
+    loadComponent('{{ component }}');
+  </script>
+</div>

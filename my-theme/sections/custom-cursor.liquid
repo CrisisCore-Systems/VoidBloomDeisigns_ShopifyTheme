@@ -1,0 +1,29 @@
+<div id="custom-cursor" class="custom-cursor"></div>
+
+{% schema %}
+{
+  "name": "Custom Cursor",
+  "settings": [
+    {
+      "type": "color",
+      "id": "cursor_color",
+      "label": "Cursor Color",
+      "default": "#00FF41"
+    },
+    {
+      "type": "range",
+      "id": "cursor_size",
+      "label": "Cursor Size",
+      "min": 10,
+      "max": 50,
+      "step": 2,
+      "default": 24,
+      "unit": "px"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+// Remove duplicate styles that exist in component CSS files
+{% endstylesheet %}

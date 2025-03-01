@@ -1,0 +1,36 @@
+/* Header */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid rgba(var(--color-base-text), 0.1);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+/* Forms */
+.form-control {
+  background: rgba(var(--color-base-background), 0.5);
+  border: 1px solid rgba(var(--color-base-text), 0.2);
+  padding: 0.5rem 1rem;
+}
+
+/* Cards */
+.card {
+  background: rgba(var(--color-base-background), 0.8);
+  border: 1px solid rgba(var(--color-base-text), 0.1);
+  border-radius: 8px;
+}

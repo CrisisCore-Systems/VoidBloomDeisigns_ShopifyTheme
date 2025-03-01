@@ -1,0 +1,43 @@
+<div class="error-boundary" data-error-boundary>
+  <script>
+    class ErrorBoundary {
+      constructor(container) {
+        this.container = container;
+        this.originalContent = container.innerHTML;
+        this.setup();
+      }
+
+      setup() {
+        window.addEventListener('error', this.handleError.bind(this));
+        window.addEventListener('unhandledrejection', this.handlePromiseError.bind(this));
+      }
+
+      handleError(event) {
+        this.showErrorUI(event.error);
+        return false;
+      }
+
+      showErrorUI(error) {
+        this.container.innerHTML = `
+          <div class="error-ui bg-void-dark p-4 rounded-lg">
+            <p class="text-critical mb-2">{{ 'general.errors.unexpected' | t }}</p>
+            <button class="btn-secondary retry-button">
+              {{ 'general.errors.retry' | t }}
+            </button>
+          </div>
+        `;
+
+        this.container.querySelector('.retry-button').addEventListener('click', () => {
+          this.retry();
+        });
+      }
+
+      retry() {
+        this.container.innerHTML = this.originalContent;
+      }
+    }
+
+    new ErrorBoundary(document.currentScript.parentElement);
+  </script>
+  {{ content }}
+</div>

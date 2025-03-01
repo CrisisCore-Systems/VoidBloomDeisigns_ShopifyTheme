@@ -1,0 +1,7 @@
+{% assign section_order = "header,hero-banner,featured-collection,product-grid,rich-text,footer" | split: "," %}
+
+{% for section_name in section_order %}
+  {% if section_name == section.type %}
+    {% render section_name %}
+  {% endif %}
+{% endfor %}

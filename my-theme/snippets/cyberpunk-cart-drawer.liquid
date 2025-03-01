@@ -1,0 +1,17 @@
+<div id="cart-drawer" class="cart-drawer">
+  <div class="cart-drawer__header">
+    <h2>{{ 'cart.general.title' | t }}</h2>
+    <button class="cart-drawer__close">×</button>
+  </div>
+  <div class="cart-drawer__content">
+    {% if cart.item_count > 0 %}
+      <form action="{{ routes.cart_url }}" method="post" novalidate>
+        {% for item in cart.items %}
+          <!-- Cart items will be rendered here -->
+        {% endfor %}
+      </form>
+    {% else %}
+      <p>{{ 'cart.general.empty' | t }}</p>
+    {% endif %}
+  </div>
+</div>

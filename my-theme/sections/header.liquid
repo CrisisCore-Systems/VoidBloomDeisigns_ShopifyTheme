@@ -1,0 +1,169 @@
+<div class="relative z-50">
+  <!-- Premium Status Bar -->
+  <div class="bg-gradient-to-r from-neon-pink via-neon-purple to-neon-cyan h-0.5"></div>
+  
+  <header class="backdrop-blur-md bg-void-dark/80 border-b border-neon-pink/20">
+    <div class="relative z-10 font-rajdhani">
+      <div class="w-full h-1 bg-neon-gradient"></div>
+      
+      <header class="site-header" data-sticky-header>
+        <!-- Progressive enhancement -->
+        <noscript>
+          <style>.site-header{position: relative !important;}</style>
+        </noscript>
+  
+        <!-- Optimized navigation -->
+        <div class="header-wrapper" data-header-wrapper>
+          <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+              <!-- Logo -->
+              <div class="flex-shrink-0">
+                <a href="/" class="flex items-center">
+                  <div class="relative">
+                    <span class="text-2xl font-bold text-white">
+                      <span class="text-neon-pink">Void</span><span class="text-neon-cyan">Bloom</span>
+                    </span>
+                    <div class="absolute -bottom-1 left-0 w-full h-px bg-neon-gradient"></div>
+                  </div>
+                </a>
+              </div>
+              
+              <!-- Navigation - Desktop -->
+              <nav class="hidden md:flex space-x-8">
+                {% for link in linklists.main-menu.links %}
+                  <a href="{{ link.url }}" class="py-2 text-white hover:text-neon-pink relative group">
+                    {{ link.title }}
+                    <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-neon-pink transition-all duration-300 group-hover:w-full"></span>
+                  </a>
+                {% endfor %}
+              </nav>
+              
+              <!-- Mobile Menu Button -->
+              <div class="mobile-menu" data-mobile-menu>
+                <button 
+                  class="mobile-menu__toggle"
+                  aria-expanded="false"
+                  aria-controls="mobile-menu-drawer">
+                  <span class="sr-only">Menu</span>
+                  <svg class="w-6 h-6 text-neon-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                  </svg>
+                </button>
+                
+                <div class="md:hidden hidden bg-void-dark border-b border-neon-pink/30" id="mobile-menu-drawer">
+                  <div class="container mx-auto px-4 py-3">
+                    <nav class="flex flex-col space-y-3">
+                      {% for link in linklists.main-menu.links %}
+                        <a href="{{ link.url }}" class="py-2 text-white hover:text-neon-pink">
+                          {{ link.title }}
+                        </a>
+                      {% endfor %}
+                    </nav>
+                    
+                    <div class="flex justify-between items-center mt-4 pt-4 border-t border-neon-pink/30">
+                      <a href="/search" class="text-white hover:text-neon-cyan flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        Search
+                      </a>
+                      
+                      <a href="/account" class="text-white hover:text-neon-cyan flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                        Account
+                      </a>
+                      
+                      <a href="/cart" class="text-white hover:text-neon-cyan flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                        Cart {% if cart.item_count > 0 %}({{ cart.item_count }}){% endif %}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Actions -->
+              <div class="hidden md:flex items-center space-x-6">
+                <a href="/search" class="text-white hover:text-neon-cyan transition-colors duration-300" aria-label="Search">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                  </svg>
+                </a>
+                
+                <a href="/account" class="text-white hover:text-neon-cyan transition-colors duration-300" aria-label="Account">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                  </svg>
+                </a>
+                
+                <a href="/cart" class="text-white hover:text-neon-cyan transition-colors duration-300 relative" aria-label="Cart">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                  </svg>
+                  {% if cart.item_count > 0 %}
+                    <span class="absolute -top-1 -right-1 bg-neon-pink text-void text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                      {{ cart.item_count }}
+                    </span>
+                  {% endif %}
+                </a>
+              </div>
+              
+              <!-- Premium Menu Items -->
+              <div class="hidden lg:flex items-center space-x-6">
+                {% if customer.tags contains 'premium' %}
+                  <div class="premium-badge flex items-center">
+                    <span class="text-neon-pink">★</span>
+                    <span class="ml-2 text-white">Premium Member</span>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          
+          <!-- Enhanced search -->
+          {% render 'predictive-search' %}
+        </div>
+      </header>
+    </div>
+  </header>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuButton = document.querySelector('.mobile-menu__toggle');
+    const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
+    
+    mobileMenuButton.addEventListener('click', function() {
+      const expanded = mobileMenuButton.getAttribute('aria-expanded') === 'true' || false;
+      mobileMenuButton.setAttribute('aria-expanded', !expanded);
+      mobileMenuDrawer.classList.toggle('hidden');
+    });
+  });
+
+  // Optimized header functionality
+  class StickyHeader extends HTMLElement {
+    constructor() {
+      super();
+      this.header = this.querySelector('[data-header-wrapper]');
+      this.headerBounds = {};
+      this.currentScrollTop = 0;
+      
+      this.init();
+    }
+
+    init() {
+      this.onScrollHandler = this.onScroll.bind(this);
+      window.addEventListener('scroll', this.onScrollHandler, {passive: true});
+      
+      this.createObserver();
+    }
+
+    // ...rest of implementation
+  }
+  
+  customElements.define('sticky-header', StickyHeader);
+</script>

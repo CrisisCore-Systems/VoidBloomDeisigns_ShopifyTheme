@@ -1,0 +1,47 @@
+<div class="product-card" 
+  data-product-id="{{ product.id }}"
+  data-price="{{ product.price }}"
+  data-available="{{ product.available }}"
+  data-premium="{{ product.tags contains 'premium' }}">
+  
+  <!-- Glitch Effect Container -->
+  {% if settings.enable_glitch_effects %}
+    <div class="glitch-container"></div>
+  {% endif %}
+
+  <!-- Lazy loading wrapper -->
+  <div class="lazy-load-wrapper" data-observer-root>
+    <!-- Error boundary -->
+    {% unless product %}
+      <div class="product-card__error">
+        <p class="text-critical">Product data unavailable</p>
+      </div>
+    {% else %}
+      <!-- Enhanced accessibility -->
+      <article 
+        aria-labelledby="product-title-{{ product.id }}"
+        class="product-card__inner">
+        
+        <!-- Optimized image loading -->
+        {% render 'responsive-image' with
+          image: product.featured_image,
+          sizes: '(min-width: 1200px) 25vw, (min-width: 750px) 50vw, 100vw',
+          loading: 'lazy'
+        %}
+
+        <!-- Enhanced interactions -->
+        <div class="product-card__hover-content">
+          {% render 'quick-view-button' with product: product %}
+          {% render 'add-to-wishlist' with product: product %}
+        </div>
+      </article>
+    {% endunless %}
+  </div>
+
+  <!-- Premium Features -->
+  {% if customer.tags contains 'premium' and product.tags contains 'premium' %}
+    <div class="premium-features">
+      {% render 'premium-product-features', product: product %}
+    </div>
+  {% endif %}
+</div>

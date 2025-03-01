@@ -1,0 +1,105 @@
+<div id="cart-drawer" class="cart-drawer" data-cart-drawer>
+  <div class="cart-drawer__overlay"></div>
+  <div class="cart-drawer__content">
+    <header class="cart-drawer__header">
+      <h2 class="cart-drawer__title neon-text">{{ 'cart.general.title' | t }}</h2>
+      <button class="cart-drawer__close" data-cart-close>
+        {% render 'icon-close' %}
+      </button>
+    </header>
+
+    <div class="cart-drawer__items" data-cart-items>
+      {%- if cart.item_count > 0 -%}
+        {% for item in cart.items %}
+          {% render 'cart-item', item: item %}
+        {% endfor %}
+      {%- else -%}
+        <p class="cart-drawer__empty">{{ 'cart.general.empty' | t }}</p>
+      {%- endif -%}
+    </div>
+
+    <footer class="cart-drawer__footer">
+      <div class="cart-drawer__total">
+        <span>{{ 'cart.general.subtotal' | t }}</span>
+        <span data-cart-total>{{ cart.total_price | money }}</span>
+      </div>
+      <button class="button button--neon" data-checkout-button>
+        {{ 'cart.general.checkout' | t }}
+      </button>
+    </footer>
+  </div>
+</div>
+
+{
+  "name": "Cart Drawer",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "cart_notes_enable",
+      "label": "Enable cart notes",
+      "default": true
+    }
+  ]
+}
+
+.cart-drawer {
+  --drawer-width: min(400px, 100vw);
+  
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--z-index-drawer);
+  visibility: hidden;
+}
+
+.cart-drawer.active {
+  visibility: visible;
+}
+
+.cart-drawer__content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--drawer-width);
+  height: 100%;
+  background: var(--background-primary);
+  border-left: 2px solid var(--glow-primary);
+  transform: translateX(100%);
+  transition: transform 0.3s ease-out;
+}
+
+.cart-drawer.active .cart-drawer__content {
+  transform: translateX(0);
+}
+
+// Move cart functionality to cart-controller.js
+class CartDrawer {
+  // Remove duplicate functionality and use cart-controller.js instead
+  constructor() {
+    this.drawer = document.querySelector('[data-cart-drawer]');
+    this.bindEvents();
+  }
+
+  bindEvents() {
+    document.addEventListener('cart:open', () => this.open());
+    document.addEventListener('cart:close', () => this.close());
+    
+    this.drawer.querySelector('[data-cart-close]').addEventListener('click', () => {
+      this.close();
+    });
+  }
+
+  open() {
+    this.drawer.classList.add('active');
+    document.body.classList.add('drawer-open');
+  }
+
+  close() {
+    this.drawer.classList.remove('active');
+    document.body.classList.remove('drawer-open');
+  }
+}
+
+new CartDrawer();

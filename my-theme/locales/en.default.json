@@ -1,0 +1,28 @@
+{
+  "general": {
+    "errors": {
+      "unexpected": "Something unexpected happened",
+      "retry": "Try Again",
+      "loading": "Error loading content"
+    }
+  },
+  "components": {
+    "errors": {
+      "loading": "Failed to load component",
+      "initialization": "Component initialization failed"
+    },
+    "buttons": {
+      "retry": "Retry",
+      "load_more": "Load More",
+      "view_details": "View Details"
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "Skip to text content",
+    "loading": "Loading content",
+    "menu": {
+      "open": "Open menu",
+      "close": "Close menu"
+    }
+  }
+}

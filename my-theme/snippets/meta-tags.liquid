@@ -1,0 +1,60 @@
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="{{ settings.accent_color }}">
+<link rel="canonical" href="{{ canonical_url }}">
+{%- if page_description -%}
+  <meta name="description" content="{{ page_description | escape }}">
+{%- endif -%}
+<meta property="og:site_name" content="{{ shop.name }}">
+<meta name="twitter:site" content="{{ settings.social_twitter_link }}">
+{% if template contains 'product' %}
+  // ... product meta tags
+{% elsif template contains 'collection' %}
+  // ... collection meta tags
+{% elsif template == 'index' %}
+  // ... homepage meta tags
+{% endif %}
+
+<!-- SEO Meta Tags -->
+<title>
+  {{ page_title }}
+  {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+  {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+  {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+</title>
+
+{% if page_description %}
+  <meta name="description" content="{{ page_description | escape }}">
+{% endif %}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:title" content="{{ page_title | escape }}">
+<meta property="og:description" content="{{ page_description | escape }}">
+{% if settings.social_sharing_image %}
+  <meta property="og:image" content="{{ settings.social_sharing_image | image_url: width: 1200 }}">
+{% endif %}
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="{{ canonical_url }}">
+<meta name="twitter:title" content="{{ page_title | escape }}">
+<meta name="twitter:description" content="{{ page_description | escape }}">
+{% if settings.social_sharing_image %}
+  <meta name="twitter:image" content="{{ settings.social_sharing_image | image_url: width: 1200 }}">
+{% endif %}
+
+<!-- Canonical URL -->
+<link rel="canonical" href="{{ canonical_url }}">
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": {{ shop.name | json }},
+  "url": {{ shop.url | json }}
+}
+</script>

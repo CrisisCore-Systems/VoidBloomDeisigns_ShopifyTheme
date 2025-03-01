@@ -1,0 +1,224 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply font-rajdhani bg-void text-white;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-void;
+    background-image: radial-gradient(circle at 50% 50%, rgba(0, 255, 255, 0.05) 0%, rgba(0, 0, 0, 1) 100%);
+    background-attachment: fixed;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-rajdhani font-bold;
+  }
+  
+  h1 {
+    @apply text-4xl md:text-5xl;
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+  
+  a {
+    @apply text-neon-pink hover:text-neon-cyan transition-colors duration-300;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-void-light;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-neon-pink;
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-neon-cyan;
+  }
+  
+  /* Selection color */
+  ::selection {
+    @apply bg-neon-pink text-void;
+  }
+
+  /* Performance optimizations */
+  .content-wrapper {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+  }
+
+  /* Improved animations */
+  @property --glow-intensity {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+  }
+
+  /* Better responsive design */
+  @custom-media --motion-safe (prefers-reduced-motion: no-preference);
+  @custom-media --motion-reduce (prefers-reduced-motion: reduce);
+
+  /* Enhanced accessibility */
+  .visually-hidden:not(:focus):not(:active) {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+}
+
+@layer components {
+  /* VoidBloom Button Styles */
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded font-rajdhani font-medium text-sm transition-all duration-300 relative overflow-hidden;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  }
+  
+  .btn-primary {
+    @apply btn bg-neon-pink text-void border border-neon-pink hover:bg-transparent hover:text-neon-pink hover:shadow-neon-pink;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-transparent text-neon-cyan border border-neon-cyan hover:bg-neon-cyan hover:text-void hover:shadow-neon-cyan;
+  }
+  
+  .btn-critical {
+    @apply btn bg-critical text-void border border-critical hover:bg-transparent hover:text-critical;
+  }
+  
+  /* VoidBloom Card Style */
+  .voidbloom-card {
+    @apply bg-void-light border border-neon-pink p-4 relative overflow-hidden;
+    clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+  }
+  
+  .voidbloom-card:hover {
+    @apply shadow-neon-pink;
+  }
+  
+  /* Form elements */
+  .input {
+    @apply w-full bg-void-light border border-neon-cyan rounded px-3 py-2 text-white 
+    focus:outline-none focus:border-neon-pink focus:shadow-neon-pink;
+    clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+  }
+  
+  .select {
+    @apply input appearance-none bg-no-repeat pr-8;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2300FFFF' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-position: right 0.75rem center;
+  }
+  
+  /* Glitch container */
+  .glitch-container {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glitch-container::before,
+  .glitch-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .glitch-container::before {
+    background: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='5' y='5' width='1' height='20' fill='rgba(0, 255, 255, 0.3)'/%3E%3Crect x='15' y='2' width='1' height='26' fill='rgba(255, 0, 127, 0.3)'/%3E%3Crect x='25' y='7' width='1' height='16' fill='rgba(157, 0, 255, 0.3)'/%3E%3C/svg%3E");
+    animation: glitch-scan 3s linear infinite;
+  }
+  
+  .glitch-container::after {
+    background-color: rgba(255, 0, 127, 0.1);
+    animation: glitch-flash 5s linear infinite;
+  }
+  
+  @keyframes glitch-scan {
+    0% {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+    10%, 30% {
+      opacity: 0.2;
+    }
+    50% {
+      opacity: 0;
+    }
+    80%, 90% {
+      opacity: 0.2;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+  }
+  
+  @keyframes glitch-flash {
+    0%, 95%, 98% {
+      opacity: 0;
+    }
+    96%, 97% {
+      opacity: 0.3;
+    }
+  }
+  
+  /* Neon loading spinner */
+  .neon-spinner {
+    @apply w-10 h-10 relative;
+  }
+  
+  .neon-spinner::before,
+  .neon-spinner::after {
+    content: "";
+    @apply absolute inset-0 rounded-full;
+    border: 2px solid transparent;
+  }
+  
+  .neon-spinner::before {
+    @apply border-t-neon-pink border-r-neon-pink;
+    animation: spin 1s linear infinite;
+  }
+  
+  .neon-spinner::after {
+    @apply border-b-neon-cyan border-l-neon-cyan;
+    animation: spin 1.5s linear reverse infinite;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Optimized animations */
+  @media (--motion-safe) {
+    .neon-glow {
+      animation: neon-pulse 2s var(--ease-out-4) infinite;
+      will-change: opacity, transform;
+    }
+  }
+}

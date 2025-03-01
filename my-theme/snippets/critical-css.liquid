@@ -1,0 +1,26 @@
+/* Critical CSS for above-the-fold content */
+:root {
+  --glow-primary: {{ settings.neon_primary | default: '#00FF41' }};
+  --background-primary: {{ settings.background_primary | default: '#030303' }};
+  --text-color: {{ settings.text_color | default: '#FFFFFF' }};
+}
+
+body {
+  font-family: var(--font-body-family);
+  background-color: var(--background-primary);
+  color: var(--text-color);
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--background-primary);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
