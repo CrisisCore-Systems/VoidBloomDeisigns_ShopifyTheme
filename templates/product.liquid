@@ -1,1 +1,43 @@
-{% section 'product-template' %}
+<!DOCTYPE html>
+<html lang="{{ shop.locale }}" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="{{ settings.background_primary }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+  
+  <title>
+    {{ page_title }}
+    {% unless page_title contains shop.name %}
+      &ndash; {{ shop.name }}
+    {% endunless %}
+  </title>
+  
+  <!-- Main Stylesheet with VoidBloom customizations -->
+  {{ 'main.scss' | asset_url | stylesheet_tag }}
+
+  <!-- Additional Shopify Header Content -->
+  {{ content_for_header }}
+
+  <!-- Remove no-js class when JavaScript is enabled -->
+  <script>
+    document.documentElement.classList.remove('no-js');
+  </script>
+</head>
+
+<body class="voidbloom-product-page cyberpunk-theme template-product">
+  {% section 'announcement' %}
+  {% section 'header' %}
+
+  <main id="MainContent" role="main" class="page-width">
+    <div class="voidbloom-product-wrapper">
+      {% section 'product-template' %}
+    </div>
+  </main>
+
+  {% section 'footer' %}
+  {% section 'cart-drawer' %}
+  {% section 'popups' %}
+</body>
+</html>
