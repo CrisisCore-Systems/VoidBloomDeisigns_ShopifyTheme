@@ -2,75 +2,117 @@
 <html lang="{{ shop.locale }}" class="no-js">
 <head>
   <meta charset="utf-8">
+  <!-- Remove the X-UA-Compatible meta if you no longer need IE-specific support -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <!-- Responsive meta -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  
+  <!-- Browser UI color (for Chrome on Android, etc.) -->
   <meta name="theme-color" content="{{ settings.background_primary }}">
+  
+  <!-- Encourage search engines to index your site -->
+  <meta name="robots" content="index, follow">
+  
+  <!-- Canonical URL for SEO -->
   <link rel="canonical" href="{{ canonical_url }}">
 
+  <!-- Page Title -->
   <title>
-    {{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+    {{ page_title }}
+    {% if current_tags %}
+      {% assign meta_tags = current_tags | join: ', ' %}
+      &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}
+    {% endif %}
+    {% if current_page != 1 %}
+      &ndash; {{ 'general.meta.page' | t: page: current_page }}
+    {% endif %}
+    {% unless page_title contains shop.name %}
+      &ndash; {{ shop.name }}
+    {% endunless %}
   </title>
 
+  <!-- Meta Description (with fallback) -->
   {% if page_description %}
     <meta name="description" content="{{ page_description | escape }}">
+  {% else %}
+    <meta name="description" content="{{ shop.description | escape }}">
   {% endif %}
+
+  <!-- Open Graph Tags -->
+  <meta property="og:site_name" content="{{ shop.name }}">
+  <meta property="og:title" content="{{ page_title }}">
+  {% if page_description %}
+    <meta property="og:description" content="{{ page_description | escape }}">
+  {% else %}
+    <meta property="og:description" content="{{ shop.description | escape }}">
+  {% endif %}
+  <meta property="og:url" content="{{ canonical_url }}">
+  <!-- Add an og:image if you have a default social share image -->
 
   <!-- Favicon -->
   <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png">
-  
-  <!-- Google Fonts -->
+
+  <!-- Preconnect for faster Google Fonts loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  
-  <!-- CSS -->
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&family=Share+Tech+Mono&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Main Stylesheet -->
   {{ 'main.scss' | asset_url | stylesheet_tag }}
-  
-  <!-- Theme settings -->
+
+  <!-- Pass Theme Settings & Strings to JavaScript -->
   <script>
     window.theme = window.theme || {};
-    window.theme = {
-      settings: {
-        primary_color: {{ settings.primary_color | json }},
-        secondary_color: {{ settings.secondary_color | json }},
-        accent_color: {{ settings.accent_color | json }},
-        layout_width: {{ settings.layout_width | json }},
-        animations_enabled: {{ settings.animations_enabled | json }}
-      },
-      strings: {
-        addToCart: {{ 'products.product.add_to_cart' | t | json }},
-        soldOut: {{ 'products.product.sold_out' | t | json }},
-        unavailable: {{ 'products.product.unavailable' | t | json }}
-      },
-      moneyFormat: {{ shop.money_format | json }}
+    window.theme.settings = {
+      primary_color: {{ settings.primary_color | json }},
+      secondary_color: {{ settings.secondary_color | json }},
+      accent_color: {{ settings.accent_color | json }},
+      layout_width: {{ settings.layout_width | json }},
+      animations_enabled: {{ settings.animations_enabled | json }}
     };
-    document.documentElement.className = document.documentElement.className.replace('no-js', '');
-  </script>
-  
-  <!-- Scripts -->
-  <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+    window.theme.strings = {
+      addToCart: {{ 'products.product.add_to_cart' | t | json }},
+      soldOut: {{ 'products.product.sold_out' | t | json }},
+      unavailable: {{ 'products.product.unavailable' | t | json }}
+    };
+    window.theme.moneyFormat = {{ shop.money_format | json }};
 
-  <!-- Additional scripts -->
+    // Remove the 'no-js' class if JavaScript is enabled
+    document.documentElement.classList.remove('no-js');
+  </script>
+
+  <!-- Theme Script (Deferred for Performance) -->
+  <script src="{{ 'theme.js' | asset_url }}" defer></script>
+
+  <!-- Additional scripts injected by Shopify or apps -->
   {{ content_for_header }}
 </head>
 
 <body class="cyberpunk-theme template-{{ template.name | handle }} {{ template.suffix }}">
+  <!-- Decorative Overlays -->
   <div class="noise-overlay" aria-hidden="true"></div>
   <div class="glitch-lines" aria-hidden="true"></div>
   
+  <!-- Theme Sections -->
   {% section 'announcement' %}
   {% section 'header' %}
-  
+
   <main id="MainContent" role="main" class="main-content" tabindex="-1">
     {{ content_for_layout }}
   </main>
-  
+
   {% section 'footer' %}
-  
-  <!-- Cart drawer -->
+
+  <!-- Cart Drawer -->
   {% section 'cart-drawer' %}
-  
-  <!-- Modals -->
+
+  <!-- Popup Modals -->
   {% section 'popups' %}
 </body>
 </html>
