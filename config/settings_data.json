@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
     "primary_color": "#000000",
@@ -6,16 +15,6 @@
     "heading_font": "helvetica_n4",
     "body_font": "helvetica_n4",
     "layout_width": "standard",
-    "sections": {
-      "header": {
-        "type": "header",
-        "settings": {}
-      },
-      "footer": {
-        "type": "footer",
-        "settings": {}
-      }
-    },
     "colors_accent_1": "#121212",
     "colors_accent_2": "#334FB4",
     "colors_text": "#FFFFFF",
@@ -27,7 +26,38 @@
     "neon_accent": "#FFFF00",
     "type_header_font": "courier_new_n7",
     "type_body_font": "courier_new_n4",
-    "colors_solid_button_labels": "#FFFFFF"
+    "colors_solid_button_labels": "#FFFFFF",
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {
+          "menu": "main-menu"
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {
+          "copyright_text": "All rights reserved.",
+          "show_payment_icons": true,
+          "show_locale_selector": true,
+          "show_currency_selector": true,
+          "footer_background": "#0d0221"
+        }
+      },
+      "hero": {
+        "type": "hero",
+        "settings": {
+          "image": "shopify://shop_images/1000002123.png",
+          "title": "ENTER THE FUTURE",
+          "subheading": "<p>Experience the cyberpunk aesthetic with our cutting-edge products.</p>",
+          "button_text": "EXPLORE",
+          "button_link": "",
+          "text_alignment": "left",
+          "full_width": true
+        }
+      }
+    },
+    "content_for_index": []
   },
   "presets": {
     "Cyberpunk": {
