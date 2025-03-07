@@ -2,22 +2,12 @@
 <html lang="{{ shop.locale }}" class="no-js">
 <head>
   <meta charset="utf-8">
-  <!-- Remove the X-UA-Compatible meta if you no longer need IE-specific support -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  
-  <!-- Responsive meta -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  
-  <!-- Browser UI color (for Chrome on Android, etc.) -->
   <meta name="theme-color" content="{{ settings.background_primary }}">
-  
-  <!-- Encourage search engines to index your site -->
   <meta name="robots" content="index, follow">
-  
-  <!-- Canonical URL for SEO -->
   <link rel="canonical" href="{{ canonical_url }}">
 
-  <!-- Page Title -->
   <title>
     {{ page_title }}
     {% if current_tags %}
@@ -32,7 +22,6 @@
     {% endunless %}
   </title>
 
-  <!-- Meta Description (with fallback) -->
   {% if page_description %}
     <meta name="description" content="{{ page_description | escape }}">
   {% else %}
@@ -48,22 +37,20 @@
     <meta property="og:description" content="{{ shop.description | escape }}">
   {% endif %}
   <meta property="og:url" content="{{ canonical_url }}">
-  <!-- Add an og:image if you have a default social share image -->
+  <!-- Add an og:image tag here if you have a default social share image -->
 
   <!-- Favicon -->
   <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png">
 
-  <!-- Preconnect for faster Google Fonts loading -->
+  <!-- Preconnect for Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <!-- Google Fonts -->
   <link
     href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&family=Share+Tech+Mono&display=swap"
     rel="stylesheet"
   >
 
-  <!-- Main Stylesheet -->
+  <!-- Main Stylesheet (includes VoidBloom customizations) -->
   {{ 'main.scss' | asset_url | stylesheet_tag }}
 
   <!-- Pass Theme Settings & Strings to JavaScript -->
@@ -82,6 +69,8 @@
       unavailable: {{ 'products.product.unavailable' | t | json }}
     };
     window.theme.moneyFormat = {{ shop.money_format | json }};
+    // Custom VoidBloom variable for neon-cyber branding
+    window.theme.brand = "VoidBloom";
 
     // Remove the 'no-js' class if JavaScript is enabled
     document.documentElement.classList.remove('no-js');
@@ -90,29 +79,25 @@
   <!-- Theme Script (Deferred for Performance) -->
   <script src="{{ 'theme.js' | asset_url }}" defer></script>
 
-  <!-- Additional scripts injected by Shopify or apps -->
+  <!-- Additional Shopify or app-injected scripts -->
   {{ content_for_header }}
 </head>
 
-<body class="cyberpunk-theme template-{{ template.name | handle }} {{ template.suffix }}">
-  <!-- Decorative Overlays -->
-  <div class="noise-overlay" aria-hidden="true"></div>
-  <div class="glitch-lines" aria-hidden="true"></div>
+<body class="voidbloom-theme cyberpunk-theme template-{{ template.name | handle }} {{ template.suffix }}">
+  <!-- Decorative overlays for neon glitch effects -->
+  <div class="voidbloom-noise-overlay noise-overlay" aria-hidden="true"></div>
+  <div class="voidbloom-glitch-lines glitch-lines" aria-hidden="true"></div>
   
   <!-- Theme Sections -->
   {% section 'announcement' %}
   {% section 'header' %}
 
-  <main id="MainContent" role="main" class="main-content" tabindex="-1">
+  <main id="MainContent" role="main" class="voidbloom-main-content main-content" tabindex="-1">
     {{ content_for_layout }}
   </main>
 
   {% section 'footer' %}
-
-  <!-- Cart Drawer -->
   {% section 'cart-drawer' %}
-
-  <!-- Popup Modals -->
   {% section 'popups' %}
 </body>
 </html>
