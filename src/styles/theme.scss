@@ -1,0 +1,26 @@
+// Main entry point for styles
+
+// Import base styles
+@import 'base/variables';
+@import 'base/reset';
+@import 'base/typography';
+@import 'base/layout';
+
+// Import component styles
+@import 'components/buttons';
+@import 'components/cart';
+@import 'components/forms';
+@import 'components/glitch-effects';
+@import 'components/notifications';
+@import 'components/product-card';
+@import 'components/loading';
+
+// Import section styles
+@import 'sections/header';
+@import 'sections/footer';
+@import 'sections/product';
+@import 'sections/collection';
+
+// Import utility styles
+@import 'utilities/animations';
+@import 'utilities/helpers';

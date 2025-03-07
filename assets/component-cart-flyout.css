@@ -1,0 +1,33 @@
+.cart-flyout {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 350px;
+  z-index: 1000;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  background-color: var(--background-primary);
+  border-left: 2px solid var(--neon-primary);
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+}
+
+.cart-flyout.active {
+  transform: translateX(0);
+}
+
+.cart-flyout__header {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cart-flyout__content {
+  padding: 1rem;
+  overflow-y: auto;
+  height: calc(100% - 60px);
+}
+
+.cart-flyout__footer {
+  padding: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}

@@ -1,0 +1,60 @@
+/*
+  VoidBloomDesign Theme Main Stylesheet
+  Moving from assets/styles/main.scss to root assets folder
+*/
+
+:root {
+  --background-primary: {{ settings.background_primary }};
+  --text-color: {{ settings.text_color }};
+  --glow-primary: {{ settings.neon_primary }};
+  --glow-primary-rgb: {{ settings.neon_primary | color_to_rgb | strip }};
+  --glow-secondary: {{ settings.neon_secondary }};
+  --glow-secondary-rgb: {{ settings.neon_secondary | color_to_rgb | strip }};
+  --glow-accent: {{ settings.neon_accent }};
+  --glow-accent-rgb: {{ settings.neon_accent | color_to_rgb | strip }};
+  
+  --font-heading-family: {{ settings.type_header_font.family }};
+  --font-body-family: {{ settings.type_body_font.family }};
+  
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 3rem;
+  
+  --z-index-dropdown: 100;
+  --z-index-cart-flyout: 200;
+  --z-index-modal: 300;
+  --z-index-notification: 400;
+}
+
+/* Base Styles */
+body {
+  background-color: var(--background-primary);
+  color: var(--text-color);
+  font-family: var(--font-body-family);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading-family);
+  margin: 0 0 var(--space-3);
+  line-height: 1.2;
+}
+
+/* Neon Text Effect */
+.neon-text {
+  color: var(--text-color);
+  text-shadow: 0 0 5px var(--glow-primary),
+               0 0 10px var(--glow-primary),
+               0 0 20px var(--glow-primary);
+}
+
+/* Import component styles */
+{% comment %}
+  Import component styles here when needed
+  Note: In Shopify, you can't use @import in SCSS files
+  Include the component styles directly in main.scss or use asset_url
+{% endcomment %}

@@ -1,0 +1,52 @@
+{
+  "current": {
+    "primary_color": "#000000",
+    "secondary_color": "#ffffff",
+    "accent_color": "#5c6ac4",
+    "heading_font": "helvetica_n4",
+    "body_font": "helvetica_n4",
+    "layout_width": "standard",
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {}
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {}
+      }
+    },
+    "colors_accent_1": "#121212",
+    "colors_accent_2": "#334FB4",
+    "colors_text": "#FFFFFF",
+    "colors_background_1": "#121212",
+    "background_primary": "#121212",
+    "text_color": "#FFFFFF",
+    "neon_primary": "#00FFFF",
+    "neon_secondary": "#FF00FF",
+    "neon_accent": "#FFFF00",
+    "type_header_font": "courier_new_n7",
+    "type_body_font": "courier_new_n4",
+    "colors_solid_button_labels": "#FFFFFF"
+  },
+  "presets": {
+    "Cyberpunk": {
+      "colors_solid_button_labels": "#000000",
+      "colors_accent_1": "#00FFFF",
+      "colors_accent_2": "#FF00FF",
+      "colors_text": "#FFFFFF",
+      "colors_background_1": "#121212",
+      "type_header_font": "courier_new_n7",
+      "type_body_font": "courier_new_n4"
+    },
+    "Default": {
+      "colors_solid_button_labels": "#FFFFFF",
+      "colors_accent_1": "#121212",
+      "colors_accent_2": "#334FB4",
+      "colors_text": "#121212",
+      "colors_background_1": "#FFFFFF",
+      "type_header_font": "assistant_n4",
+      "type_body_font": "assistant_n4"
+    }
+  }
+}

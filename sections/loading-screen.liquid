@@ -1,0 +1,77 @@
+<div class="loading-screen" data-loading-screen>
+  <div class="loading-screen__logo">
+    {% if settings.logo != blank %}
+      <img src="{{ settings.logo | img_url: '200x' }}" alt="{{ shop.name }}" width="200" loading="eager">
+    {% else %}
+      <h1 class="loading-screen__title">{{ shop.name }}</h1>
+    {% endif %}
+  </div>
+  
+  <div class="loading-screen__progress">
+    <div class="loading-screen__progress-bar" data-progress-bar></div>
+  </div>
+  
+  <div class="loading-screen__text" data-loading-text>{{ 'general.loading' | t }}</div>
+</div>
+
+{% schema %}
+{
+  "name": "Loading Screen",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_loading_screen",
+      "label": "Enable loading screen",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "loading_duration",
+      "min": 500,
+      "max": 5000,
+      "step": 100,
+      "unit": "ms",
+      "label": "Loading screen duration",
+      "default": 2000
+    }
+  ],
+  "presets": [
+    {
+      "name": "Loading Screen",
+      "category": "Interactive"
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+  // Initialize loading screen
+  document.addEventListener('DOMContentLoaded', function() {
+    const loadingScreen = document.querySelector('[data-loading-screen]');
+    const progressBar = document.querySelector('[data-progress-bar]');
+    
+    if (!loadingScreen) return;
+    
+    const duration = {{ settings.loading_duration | default: 2000 }};
+    const startTime = performance.now();
+    
+    // Update progress bar
+    function updateProgress(timestamp) {
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      progressBar.style.width = `${progress * 100}%`;
+      
+      if (progress < 1) {
+        requestAnimationFrame(updateProgress);
+      } else {
+        loadingScreen.classList.add('loaded');
+        setTimeout(() => {
+          loadingScreen.style.display = 'none';
+        }, 500);
+      }
+    }
+    
+    requestAnimationFrame(updateProgress);
+  });
+</script>

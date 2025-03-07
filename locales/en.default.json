@@ -1,0 +1,20 @@
+{
+  "general": {
+    "loading": "Initializing system..."
+  },
+  "accessibility": {
+    "skip_to_text": "Skip to content",
+    "close": "Close",
+    "close_drawer": "Close drawer"
+  },
+  "cart": {
+    "general": {
+      "title": "Your Cart",
+      "subtotal": "Subtotal",
+      "view_cart": "View Cart",
+      "checkout": "Secure Checkout",
+      "empty": "Your cart is currently empty.",
+      "continue_shopping": "Continue Shopping"
+    }
+  }
+}

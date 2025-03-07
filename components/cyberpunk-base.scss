@@ -1,0 +1,152 @@
+/**
+ * Cyberpunk Base Styles
+ *
+ * Core styles that define the cyberpunk aesthetic
+ * including variables, mixins, and base element styling
+ */
+
+// ---------------
+// Variables
+// ---------------
+
+// Color variables with fallbacks
+$primary-color: var(--primary-color, #FF003C);
+$secondary-color: var(--secondary-color, #00FFFF);
+$accent-color: var(--accent-color, #FFFF00);
+$bg-color: var(--background-color, #0D0221);
+$text-color: var(--text-color, #FFFFFF);
+
+// Typography
+$font-main: 'Rajdhani', sans-serif;
+$font-display: 'Orbitron', sans-serif;
+$font-mono: 'Share Tech Mono', monospace;
+
+// Effects
+$glitch-offset: 3px;
+$noise-opacity: 0.05;
+$glow-spread: 3px;
+$scan-line-opacity: 0.15;
+
+// ---------------
+// Mixins
+// ---------------
+
+@mixin cyber-glow($color: $primary-color, $intensity: 1) {
+  text-shadow: 0 0 #{$glow-spread * $intensity} $color;
+}
+
+@mixin cyber-box($color: $primary-color, $width: 2px) {
+  border: $width solid $color;
+  box-shadow: 0 0 5px rgba($color, 0.7), inset 0 0 5px rgba($color, 0.4);
+  background: rgba($bg-color, 0.8);
+}
+
+@mixin glitch-effect {
+  position: relative;
+  
+  &::before,
+  &::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+  
+  &::before {
+    left: $glitch-offset * -1;
+    color: $primary-color;
+    animation: glitch-effect-1 750ms infinite;
+  }
+  
+  &::after {
+    left: $glitch-offset;
+    color: $secondary-color;
+    animation: glitch-effect-2 375ms infinite;
+  }
+  
+  &.glitching::before,
+  &.glitching::after {
+    opacity: 0.8;
+  }
+}
+
+@mixin scan-lines {
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 0) 1px,
+      rgba(0, 0, 0, $scan-line-opacity) 1px,
+      rgba(0, 0, 0, $scan-line-opacity) 2px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
+// ---------------
+// Animations
+// ---------------
+
+@keyframes glitch-effect-1 {
+  0%, 100% { opacity: 0; }
+  20%, 80% { opacity: 0.8; }
+}
+
+@keyframes glitch-effect-2 {
+  0%, 100% { opacity: 0; }
+  40%, 60% { opacity: 0.8; }
+}
+
+@keyframes cyber-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes scan-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+// ---------------
+// Base Styles
+// ---------------
+
+/* Apply base styles to HTML and body */
+html {
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: $font-main;
+  background-color: $bg-color;
+  color: $text-color;
+  line-height: 1.6;
+  @include scan-lines;
+  
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAOHElEQVR4nO1dbVczNw69JCEvBJInEEIgEIb//6/6fbu73e77tt0P1o2vZQ3QPgRCmHsOJ8mMx5ZlWZJljQEynlBia58ncq3nykzs8wzApVy/ATAAMANwJdevACzl3gWAawBXABafOwH/DMB2nmk+M/9fAVgDuAFwC2CJfM5S398gn+8tgAcAKwCPANZyzwb5PD8gn/dnALsA/gngR7n3095zcv0WwModt5PreUIhvXHX9Cl3F1wAeArgGYC/AXgi96+wcZbeBzpsvIsuAexJWwpok8gd8hwtZxlIDXY/QQdr30oW0KCKMjsDcIMEC5w+yD1cR9PFgloruckh13gso3xOgcFnd9+dk1zaOzR9xvlZyDGWaA9qnBlnBDUNoMad4oVH2nCJMmufcChpOQVJQx3WKMRkBuAHZOc+QPHsB2zasM5kPEFxju28j8jB0+v3yAGIph0u0Q7wLlQl95jIIgp+xr15ZzPvTzRRdR8JhFck9Lz/hos3hO29wglzVoQ5Gix96ImMQ9Xpi9jIDEVw2JlLlfgHgH9ANDVyU0ZulVweDPN7KvfRnI2iwDqNtjj9H1BUlwLiEtmA9Ma+XdcB9a9y0V6fUHzCRCOcUk7ifUGRJJpPt2jM0w2yU5dowrwk7bxECWyud+optimsjVZPnuOQec8S5m+oFrGkhgoZ9J0w17Z7NR15dA9kRdyCkXNcqAXuLsoBoXhhSfuEIwVSeNXVNegBXcdTNAXIO2dB9lke0sYqC+Sld+1jZ45FlnPpl8u9jW0BJfb5HDkSW6sDOhL5HmrRrACvtQ4HRgTaySP+xki9TdVRCZlRHOUpnvULbhB6giG0F6W4e6cvNhPflk+uR8VSsXUc7pRAHqurD3G/RmAUFI6TPjOclynzgdykapCzZZ3AlN+T3XDYlD80613Z/hxSBOPM2sgH2QTNWK9Os8Z/BuY5CdtcWGYzTerNz1qjDeB6QDeMSal9YUzZM2BrZ9smVyzf/ru14qrCs0WQkQhTVUQFUvpnqRme7QBmIdFsRNTPD7lCm3n9mjxXaaSyZ+UygjGA1cF

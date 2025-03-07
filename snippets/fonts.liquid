@@ -1,0 +1,9 @@
+<style>
+  {% if settings.font_heading != blank %}
+    {{ settings.font_heading | font_face }}
+  {% endif %}
+  
+  {% if settings.font_body != blank %}
+    {{ settings.font_body | font_face }}
+  {% endif %}
+</style>

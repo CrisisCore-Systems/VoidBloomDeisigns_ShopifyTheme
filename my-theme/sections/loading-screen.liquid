@@ -19,8 +19,7 @@
 }
 {% endschema %}
 
-{% stylesheet %}
-.loading-screen {
+<style>.loading-screen {
   opacity: 1;
   transition: opacity 0.3s ease-out;
 }
@@ -44,10 +43,9 @@
     transform: rotate(360deg);
   }
 }
-{% endstylesheet %}
+</style>
 
-{% javascript %}
-document.addEventListener('DOMContentLoaded', () => {
+<script>document.addEventListener('DOMContentLoaded', () => {
   const loadingScreen = document.querySelector('[data-loading-screen]');
   if (loadingScreen) {
     window.addEventListener('load', () => {
@@ -55,4 +53,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-{% endjavascript %}
+</script>

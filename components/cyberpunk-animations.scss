@@ -1,0 +1,152 @@
+/**
+ * Cyberpunk Animation Styles
+ *
+ * Defines animations and animated elements for the cyberpunk theme
+ */
+
+// Glitch effect for text
+.glitch-effect {
+  position: relative;
+  display: inline-block;
+  
+  &::before,
+  &::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: -1;
+  }
+  
+  &::before {
+    left: -2px;
+    text-shadow: 2px 0 $primary-color;
+    animation: glitch-anim-1 2s infinite linear alternate-reverse;
+  }
+  
+  &::after {
+    left: 2px;
+    text-shadow: -2px 0 $secondary-color;
+    animation: glitch-anim-2 3s infinite linear alternate-reverse;
+  }
+  
+  &.glitching::before,
+  &.glitching::after {
+    opacity: 0.8;
+  }
+}
+
+// Glitch effect for images
+.glitch-image-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch-image-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: screen;
+}
+
+.glitch-image-channel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  will-change: transform;
+  opacity: 0.5;
+}
+
+.glitch-image-red {
+  mix-blend-mode: multiply;
+  filter: url('#filter-red');
+  opacity: 0;
+}
+
+.glitch-image-green {
+  mix-blend-mode: multiply;
+  filter: url('#filter-green');
+  opacity: 0;
+}
+
+.glitch-image-blue {
+  mix-blend-mode: multiply;
+  filter: url('#filter-blue');
+  opacity: 0;
+}
+
+.glitch-image-base {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// Animation for elements entering viewport
+[data-scroll-animation] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  
+  &.scroll-animation-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll-animation-hidden {
+  visibility: hidden;
+}
+
+.scroll-animation-visible {
+  visibility: visible;
+}
+
+// Page transition animations
+.page-transition {
+  opacity: 0;
+  animation: page-fade-in 0.5s forwards;
+}
+
+// Scan line effect
+.scan-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(to right, 
+    transparent, 
+    rgba($secondary-color, 0.5), 
+    rgba($secondary-color, 0.8),
+    rgba($secondary-color, 0.5), 
+    transparent
+  );
+  box-shadow: 0 0 15px rgba($secondary-color, 0.5);
+  z-index: 999;
+  pointer-events: none;
+  animation: scan-line 8s linear infinite;
+}
+
+// Noise overlay
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/png;base64,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

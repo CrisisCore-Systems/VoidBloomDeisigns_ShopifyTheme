@@ -5,7 +5,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 module.exports = {
   entry: {
     theme: './assets/theme.js',
-    styles: './assets/styles/main.scss'
+    styles: './assets/voidbloom-base.scss'
   },
   output: {
     path: path.resolve(__dirname, 'assets'),

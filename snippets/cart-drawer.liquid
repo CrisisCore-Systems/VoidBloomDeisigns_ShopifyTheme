@@ -1,0 +1,24 @@
+<div id="CartDrawer" class="drawer drawer--right">
+  <div class="drawer__inner">
+    <div class="drawer__header">
+      <div class="drawer__title">{{ 'cart.general.title' | t }}</div>
+      <button type="button" class="drawer__close" aria-label="{{ 'accessibility.close_drawer' | t }}" data-drawer-close>
+        {% include 'icon-close' %}
+      </button>
+    </div>
+    
+    <div id="CartContainer" class="drawer__body"></div>
+    
+    <div class="drawer__footer">
+      <div class="cart-subtotal">
+        <span class="cart-subtotal__title">{{ 'cart.general.subtotal' | t }}</span>
+        <span class="cart-subtotal__price" data-cart-subtotal>{{ cart.total_price | money }}</span>
+      </div>
+      
+      <div class="cart__buttons">
+        <a href="{{ routes.cart_url }}" class="btn btn--full">{{ 'cart.general.view_cart' | t }}</a>
+        <button type="button" name="checkout" class="btn btn--primary btn--full">{{ 'cart.general.checkout' | t }}</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,324 @@
+<div class="product-template" data-section-id="{{ section.id }}" data-section-type="product" data-product-id="{{ product.id }}">
+  <div class="product-container page-width">
+    
+    <div class="product-grid">
+      <!-- Product Media Gallery -->
+      <div class="product-gallery">
+        <div class="product-gallery__main" data-product-gallery>
+          <div class="product-gallery__carousel">
+            {% for media in product.media %}
+              <div class="product-gallery__item{% if forloop.first %} active{% endif %}" data-media-id="{{ media.id }}">
+                {% case media.media_type %}
+                  {% when 'image' %}
+                    {% render 'glitch-image',
+                      image: media,
+                      alt: media.alt | escape,
+                      class: 'product-gallery__image'
+                    %}
+                    
+                    {% if section.settings.enable_image_zoom %}
+                      <div class="product-gallery__zoom" 
+                          data-zoom-container
+                          style="background-image: url('{{ media | img_url: '1800x' }}');">
+                      </div>
+                    {% endif %}
+                    
+                  {% when 'external_video' %}
+                    <div class="product-gallery__media product-gallery__media--external-video cyber-video">
+                      {{ media | external_video_tag }}
+                    </div>
+                    
+                  {% when 'video' %}
+                    <div class="product-gallery__media product-gallery__media--video cyber-video">
+                      {{ media | video_tag: controls: true, autoplay: false }}
+                      <button class="cyber-video__play" aria-label="Play video">
+                        <span class="sr-only">Play video</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                          <polygon points="5 3 19 12 5 21 5 3" />
+                        </svg>
+                      </button>
+                    </div>
+                    
+                  {% when 'model' %}
+                    <div class="product-gallery__media product-gallery__media--model" data-media-type="model" data-model-id="{{ media.id }}">
+                      {{ media | model_viewer_tag }}
+                    </div>
+                    
+                  {% else %}
+                    <div class="product-gallery__media">
+                      {{ media | media_tag }}
+                    </div>
+                {% endcase %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        
+        {% if product.media.size > 1 %}
+          <div class="product-gallery__thumbnails">
+            {% for media in product.media %}
+              <button class="product-gallery__thumbnail{% if forloop.first %} active{% endif %}" 
+                     data-thumbnail
+                     data-media-id="{{ media.id }}"
+                     data-full-image="{{ media | img_url: '1200x' }}"
+                     data-full-srcset="{{ media | img_url: '800x' }} 800w, {{ media | img_url: '1200x' }} 1200w, {{ media | img_url: '1800x' }} 1800w"
+                     aria-label="{{ media.alt | escape | default: product.title | escape }}">
+                <img src="{{ media | img_url: '150x' }}" 
+                     alt="{{ media.alt | escape | default: product.title | escape }}"
+                     loading="lazy"
+                     width="75"
+                     height="75">
+              </button>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+      
+      <!-- Product Info -->
+      <div class="product-info">
+        <div class="product-info__header">
+          {% if section.settings.show_vendor %}
+            <div class="product-vendor">{{ product.vendor }}</div>
+          {% endif %}
+          
+          <h1 class="product-title glitch-effect" data-text="{{ product.title }}">{{ product.title }}</h1>
+          
+          <div class="product-price">
+            <span class="product-price__price {% if product.compare_at_price > product.price %}product-price__sale{% endif %}" data-price>
+              {{ product.price | money }}
+            </span>
+            
+            {% if product.compare_at_price > product.price %}
+              <span class="product-price__compare" data-compare-price>{{ product.compare_at_price | money }}</span>
+              <span class="product-price__badge">{{ 'products.product.on_sale' | t }}</span>
+            {% endif %}
+          </div>
+        </div>
+        
+        {% form 'product', product, id: 'product-form', data-product-form: '' %}
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          
+          <!-- Product options -->
+          {% unless product.has_only_default_variant %}
+            <div class="product-options" data-variant-selector data-product-id="{{ product.id }}" data-variants="{{ product.variants | json | escape }}">
+              {% for option in product.options_with_values %}
+                <div class="product-option">
+                  <h3 class="product-option__label">{{ option.name }}</h3>
+                  
+                  {% case section.settings.variant_style %}
+                    {% when 'dropdown' %}
+                      <div class="cyber-select-wrapper">
+                        <select name="options[{{ option.name }}]" 
+                               id="Option-{{ section.id }}-{{ option.name | handleize }}"
+                               class="cyber-select"
+                               data-option-index="{{ forloop.index0 }}">
+                          {% for value in option.values %}
+                            <option value="{{ value }}" 
+                                   {% if option.selected_value == value %}selected="selected"{% endif %}>
+                              {{ value }}
+                            </option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      
+                    {% when 'buttons' %}
+                      <div class="product-option__values">
+                        {% for value in option.values %}
+                          <input type="radio" 
+                                id="Option-{{ section.id }}-{{ option.name | handleize }}-{{ value | escape }}"
+                                name="options[{{ option.name }}]"
+                                value="{{ value | escape }}"
+                                {% if option.selected_value == value %}checked{% endif %}
+                                class="product-option__input"
+                                data-option-index="{{ forloop.index0 }}"
+                                data-value="{{ value | escape }}"
+                                {% if unavailable_values contains value %}disabled{% endif %}>
+                                
+                          <label for="Option-{{ section.id }}-{{ option.name | handleize }}-{{ value | escape }}" 
+                                class="product-option__value {% if option.selected_value == value %}product-option__value--selected{% endif %}">
+                            {{ value }}
+                          </label>
+                        {% endfor %}
+                      </div>
+                  {% endcase %}
+                </div>
+              {% endfor %}
+            </div>
+          {% endunless %}
+          
+          <!-- Product quantity -->
+          <div class="product-form-group">
+            <div class="product-quantity" data-quantity-wrapper>
+              <button type="button" 
+                      class="product-quantity__button"
+                      data-quantity-minus
+                      aria-label="{{ 'products.product.quantity_decrease' | t }}">
+                <span>-</span>
+              </button>
+              
+              <input type="number" 
+                    id="Quantity-{{ section.id }}" 
+                    name="quantity" 
+                    value="1" 
+                    min="1"
+                    data-quantity-input
+                    class="product-quantity__input" 
+                    readonly>
+                    
+              <button type="button"
+                      class="product-quantity__button"
+                      data-quantity-plus
+                      aria-label="{{ 'products.product.quantity_increase' | t }}">
+                <span>+</span>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Add to cart button -->
+          <div class="product-form-buttons">
+            <button type="submit" 
+                   name="add" 
+                   class="btn btn--primary btn--glow btn--full-width" 
+                   {% unless product.available %}disabled{% endunless %}>
+              <span class="btn__text">
+                {% if product.available %}
+                  {{ 'products.product.add_to_cart' | t }}
+                {% else %}
+                  {{ 'products.product.sold_out' | t }}
+                {% endif %}
+              </span>
+              <span class="btn__glitch"></span>
+            </button>
+            
+            {% if section.settings.show_dynamic_checkout %}
+              {{ form | payment_button }}
+            {% endif %}
+          </div>
+        {% endform %}
+        
+        <!-- Product description -->
+        {% if product.description != blank %}
+          <div class="product-description rte">
+            {{ product.description }}
+          </div>
+        {% endif %}
+        
+        <!-- Product metadata -->
+        <div class="product-metadata">
+          {% if section.settings.show_sku and product.selected_or_first_available_variant.sku != blank %}
+            <div class="product-metadata__item">
+              <span class="product-metadata__label">{{ 'products.product.sku' | t }}:</span>
+              <span class="product-metadata__value" data-sku>{{ product.selected_or_first_available_variant.sku }}</span>
+            </div>
+          {% endif %}
+          
+          {% if section.settings.show_barcode and product.selected_or_first_available_variant.barcode != blank %}
+            <div class="product-metadata__item">
+              <span class="product-metadata__label">{{ 'products.product.barcode' | t }}:</span>
+              <span class="product-metadata__value">{{ product.selected_or_first_available_variant.barcode }}</span>
+            </div>
+          {% endif %}
+          
+          {% if section.settings.show_type and product.type != blank %}
+            <div class="product-metadata__item">
+              <span class="product-metadata__label">{{ 'products.product.type' | t }}:</span>
+              <span class="product-metadata__value">{{ product.type }}</span>
+            </div>
+          {% endif %}
+          
+          {% if section.settings.show_tags and product.tags.size > 0 %}
+            <div class="product-metadata__item">
+              <span class="product-metadata__label">{{ 'products.product.tags' | t }}:</span>
+              <span class="product-metadata__value">
+                {% for tag in product.tags %}
+                  {{ tag }}{% unless forloop.last %}, {% endunless %}
+                {% endfor %}
+              </span>
+            </div>
+          {% endif %}
+        </div>
+        
+        <!-- Social sharing -->
+        {% if section.settings.show_share_buttons %}
+          <div class="product-share">
+            <h3 class="product-share__title">{{ 'products.product.share' | t }}</h3>
+            {% render 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product.featured_media %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sku",
+      "label": "Show SKU",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_barcode",
+      "label": "Show barcode",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_type",
+      "label": "Show product type",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show tags",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "variant_style",
+      "label": "Variant selection style",
+      "options": [
+        {
+          "value": "dropdown",
+          "label": "Dropdown"
+        },
+        {
+          "value": "buttons",
+          "label": "Buttons"
+        }
+      ],
+      "default": "buttons"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_image_zoom",
+      "label": "Enable image zoom",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show dynamic checkout button",
+      "info": "Using the payment methods available on your store, customers see their preferred option.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share_buttons",
+      "label": "Show social sharing buttons",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

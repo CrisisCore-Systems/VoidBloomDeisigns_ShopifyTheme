@@ -1,0 +1,269 @@
+/**
+ * Cyberpunk Collection Styles
+ *
+ * Styles for collection pages and collection components
+ */
+
+// Collection grid
+.collection-grid {
+  padding: 60px 0;
+  
+  @media screen and (max-width: 767px) {
+    padding: 40px 0;
+  }
+}
+
+.section-title {
+  font-family: $font-display;
+  font-size: 2rem;
+  text-transform: uppercase;
+  margin: 0 0 40px;
+  text-align: center;
+  color: $primary-color;
+  @include cyber-glow($primary-color, 0.7);
+  position: relative;
+  
+  &::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(to right, transparent, $primary-color, transparent);
+    margin: 15px auto 0;
+  }
+}
+
+// Grid layout utilities
+.grid {
+  display: grid;
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.gap-6 {
+  gap: 1.5rem;
+}
+
+@media screen and (min-width: 768px) {
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .lg\:grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+// Collection card
+.collection-card {
+  position: relative;
+  overflow: hidden;
+  @include cyber-box($secondary-color);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    
+    &::before {
+      opacity: 1;
+      transform: skew(-5deg) translateX(-10%);
+    }
+    
+    &::after {
+      opacity: 1;
+      transform: skew(5deg) translateX(10%);
+    }
+    
+    .collection-info {
+      background-color: rgba($bg-color, 0.8);
+      transform: translateY(0);
+    }
+  }
+  
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 65%, rgba($primary-color, 0.2) 100%);
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  &::after {
+    background: linear-gradient(-45deg, transparent 65%, rgba($secondary-color, 0.2) 100%);
+  }
+  
+  a {
+    display: block;
+    color: $text-color;
+    text-decoration: none;
+  }
+  
+  img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+  }
+}
+
+.collection-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  background-color: rgba($bg-color, 0.6);
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  transform: translateY(calc(100% - 60px));
+  
+  h3 {
+    font-family: $font-display;
+    font-size: 1.2rem;
+    margin: 0 0 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: $secondary-color;
+  }
+  
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: rgba($text-color, 0.7);
+  }
+}
+
+// Product grid in collection page
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 30px;
+  
+  @media screen and (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media screen and (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  @media screen and (min-width: 1280px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+// Collection filters
+.collection-filters {
+  margin-bottom: 40px;
+  padding: 20px;
+  @include cyber-box($secondary-color, 1px);
+}
+
+.filter-group {
+  margin-bottom: 20px;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.filter-group__header {
+  font-family: $font-display;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+  color: $secondary-color;
+}
+
+.filter-options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.filter-option {
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+  
+  label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  input[type="checkbox"] {
+    margin-right: 10px;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid $secondary-color;
+    position: relative;
+    
+    &:checked {
+      background-color: rgba($primary-color, 0.2);
+      border-color: $primary-color;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: 3px;
+        left: 6px;
+        width: 3px;
+        height: 8px;
+        border: solid $primary-color;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+    }
+  }
+}
+
+// Collection sorting
+.collection-sorting {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+  
+  label {
+    margin-right: 10px;
+    font-size: 0.9rem;
+  }
+  
+  select {
+    padding: 8px 30px 8px 10px;
+    border: 1px solid $secondary-color;
+    background-color: rgba($bg-color, 0.8);
+    color: $text-color;
+    font-size: 0.9rem;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='6' fill='none'%3E%3Cpath d='M6 6L0 0h12L6 6z' fill='%2300FFFF'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    cursor: pointer;
+    
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+    }
+  }
+}

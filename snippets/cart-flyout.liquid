@@ -1,64 +1,94 @@
-<div class="cart-flyout" data-cart-flyout>
-  <div class="cart-flyout__overlay"></div>
-  <div class="cart-flyout__content">
-    <div class="cart-flyout__header">
-      <h2 class="neon-text">{{ 'cart.title' | t }}</h2>
-      <button class="cart-flyout__close" data-cart-close>
-        {% render 'icon-close' %}
-      </button>
-    </div>
-    
-    <div class="cart-flyout__body">
-      {% render 'cart-items' %}
-    </div>
-
-    <div class="cart-flyout__footer">
-      {% render 'cart-totals' %}
-      <button class="button button--neon-full" data-checkout-button>
-        {{ 'cart.checkout' | t }}
-      </button>
-    </div>
+<div class="cart-flyout js-cart-flyout">
+  <div class="cart-flyout__header">
+    <h2 class="cart-flyout__title">{{ 'cart.title' | t }}</h2>
+    <button class="cart-flyout__close js-cart-flyout-close">
+      <span class="icon icon-close">✕</span>
+    </button>
+  </div>
+  
+  <div class="cart-flyout__body">
+    {% if cart.item_count > 0 %}
+      <div class="cart-flyout__items">
+        {% for item in cart.items %}
+          {% render 'cart-item', item: item %}
+        {% endfor %}
+      </div>
+      
+      <div class="cart-flyout__footer">
+        <div class="cart-flyout__subtotal">
+          <span>{{ 'cart.subtotal' | t }}</span>
+          <span>{{ cart.total_price | money }}</span>
+        </div>
+        
+        <a href="{{ routes.cart_url }}" class="btn">
+          {{ 'cart.view_cart' | t }}
+        </a>
+        
+        <button class="btn btn--primary js-checkout-button">
+          {{ 'cart.checkout' | t }}
+        </button>
+      </div>
+    {% else %}
+      <div class="cart-flyout__empty">
+        <p>{{ 'cart.empty' | t }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn">
+          {{ 'cart.continue_shopping' | t }}
+        </a>
+      </div>
+    {% endif %}
   </div>
 </div>
 
-{% stylesheet %}
-.cart-flyout {
-  position: fixed;
-  inset: 0;
-  z-index: var(--z-index-drawer);
-  visibility: hidden;
-  
-  &.active {
-    visibility: visible;
-    
-    .cart-flyout__overlay {
-      opacity: 1;
-    }
-    
-    .cart-flyout__content {
-      transform: translateX(0);
-    }
+{% style %}
+  /* Replace the stylesheet_tag line with these styles */
+  .cart-flyout {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 400px;
+    max-width: 100%;
+    background: var(--background-primary);
+    z-index: var(--z-index-cart-flyout);
+    transform: translateX(100%);
+    transition: transform 0.3s ease-out;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--glow-primary);
+    box-shadow: -4px 0 15px rgba(var(--glow-primary-rgb), 0.2);
   }
-}
 
-.cart-flyout__overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(var(--background-primary-rgb), 0.8);
-  backdrop-filter: blur(10px);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
+  .cart-flyout.active {
+    transform: translateX(0);
+  }
 
-.cart-flyout__content {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: min(400px, 100vw);
-  height: 100%;
-  background: var(--background-primary);
-  border-left: 2px solid var(--glow-primary);
-  transform: translateX(100%);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-{% endstylesheet %}
+  .cart-flyout__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-4);
+    border-bottom: 1px solid rgba(var(--glow-primary-rgb), 0.2);
+  }
+
+  .cart-flyout__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-2) 0;
+  }
+
+  .cart-flyout__footer {
+    border-top: 1px solid rgba(var(--glow-primary-rgb), 0.2);
+    padding: var(--space-4);
+    gap: var(--space-4);
+    display: flex;
+    flex-direction: column;
+  }
+{% endstyle %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const cartFlyout = document.querySelector('.js-cart-flyout');
+    const closeButton = document.querySelector('.js-cart-flyout-close');
+    // Cart flyout functionality
+  });
+</script>

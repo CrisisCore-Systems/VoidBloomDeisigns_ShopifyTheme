@@ -1,0 +1,214 @@
+/**
+ * Cyberpunk Form Styles
+ *
+ * Styles for form elements with cyberpunk aesthetics
+ */
+
+// Form control base style
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: 1px solid rgba($secondary-color, 0.5);
+  background-color: rgba($bg-color, 0.8);
+  color: $text-color;
+  font-family: $font-mono;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    border-color: rgba($secondary-color, 0.8);
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+  }
+  
+  &::placeholder {
+    color: rgba($text-color, 0.5);
+  }
+}
+
+// Form label style
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-family: $font-display;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: $secondary-color;
+}
+
+// Form group container
+.form-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+// Form helper text
+.form-helper {
+  margin-top: 5px;
+  font-size: 0.8rem;
+  color: rgba($text-color, 0.7);
+}
+
+// Form error state
+.form-control.error {
+  border-color: $primary-color;
+}
+
+.error-message {
+  color: $primary-color;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  display: block;
+}
+
+// Form success state
+.form-control.success {
+  border-color: $secondary-color;
+}
+
+.success-message {
+  color: $secondary-color;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  display: block;
+}
+
+// Input with icon
+.input-with-icon {
+  position: relative;
+  
+  .form-control {
+    padding-right: 40px;
+  }
+  
+  .input-icon {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    color: rgba($secondary-color, 0.7);
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+  }
+}
+
+// Checkbox and radio styling
+.checkbox-control,
+.radio-control {
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: 15px;
+  user-select: none;
+  
+  input {
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+    cursor: pointer;
+  }
+  
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: transparent;
+    border: 1px solid rgba($secondary-color, 0.5);
+    transition: all 0.2s ease;
+  }
+  
+  input:checked ~ .checkmark {
+    background-color: rgba($primary-color, 0.1);
+    border-color: $primary-color;
+  }
+  
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  input:checked ~ .checkmark:after {
+    display: block;
+  }
+}
+
+// Checkbox style
+.checkbox-control .checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid $primary-color;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+// Radio button style
+.radio-control .checkmark {
+  border-radius: 50%;
+}
+
+.radio-control .checkmark:after {
+  top: 5px;
+  left: 5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: $primary-color;
+}
+
+// Form input groups
+.input-group {
+  display: flex;
+  position: relative;
+  
+  .form-control {
+    flex-grow: 1;
+    margin-bottom: 0;
+  }
+  
+  .input-group-append {
+    margin-left: -1px;
+    
+    .btn {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+  }
+  
+  .input-group-prepend {
+    margin-right: -1px;
+    
+    .input-group-text {
+      padding: 10px 15px;
+      background-color: rgba($secondary-color, 0.1);
+      border: 1px solid rgba($secondary-color, 0.5);
+      color: $text-color;
+      white-space: nowrap;
+      font-family: $font-mono;
+    }
+  }
+}
+
+// Form with glitch effect on focus
+.form-control-glitch {
+  position: relative;
+  z-index: 1;
+  
+  &:focus {
+    animation: input-glitch 0.3s ease;

@@ -1,0 +1,97 @@
+<div class="custom-cursor" data-custom-cursor>
+  <div class="custom-cursor__inner"></div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Cursor",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_custom_cursor",
+      "label": "Enable custom cursor",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "cursor_color",
+      "label": "Cursor color",
+      "default": "#FF00FF"
+    },
+    {
+      "type": "color",
+      "id": "cursor_hover_color",
+      "label": "Cursor hover color",
+      "default": "#00FFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Cursor",
+      "category": "Interactive"
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+  // Initialize custom cursor
+  document.addEventListener('DOMContentLoaded', function() {
+    const customCursor = document.querySelector('[data-custom-cursor]');
+    
+    if (!customCursor || window.matchMedia('(pointer: coarse)').matches) {
+      customCursor.style.display = 'none';
+      return;
+    }
+    
+    const cursorInner = customCursor.querySelector('.custom-cursor__inner');
+    let cursorX = 0;
+    let cursorY = 0;
+    let mouseX = 0;
+    let mouseY = 0;
+    
+    // Update cursor position with smoothing
+    function updateCursor() {
+      const dx = mouseX - cursorX;
+      const dy = mouseY - cursorY;
+      
+      cursorX += dx * 0.2;
+      cursorY += dy * 0.2;
+      
+      customCursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+      
+      requestAnimationFrame(updateCursor);
+    }
+    
+    // Track mouse position
+    document.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+    
+    // Handle cursor states
+    document.addEventListener('mousedown', function() {
+      customCursor.classList.add('click');
+    });
+    
+    document.addEventListener('mouseup', function() {
+      customCursor.classList.remove('click');
+    });
+    
+    // Detect interactive elements
+    const interactiveElements = document.querySelectorAll('a, button, [role="button"], input, select, textarea');
+    
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseenter', function() {
+        customCursor.classList.add('hover');
+      });
+      
+      el.addEventListener('mouseleave', function() {
+        customCursor.classList.remove('hover');
+      });
+    });
+    
+    // Start animation loop
+    requestAnimationFrame(updateCursor);
+  });
+</script>

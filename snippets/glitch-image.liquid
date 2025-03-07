@@ -1,65 +1,115 @@
-<div class="glitch-image" data-glitch-image>
-  <div class="glitch-image__container">
-    <img class="glitch-image__original"
-         src="{{ image | img_url: size }}"
-         alt="{{ image.alt | escape }}"
-         width="{{ width }}"
-         height="{{ height }}"
-         loading="{{ loading | default: 'lazy' }}">
-    
-    <div class="glitch-image__glitch"></div>
-    <div class="glitch-image__scan-line"></div>
-  </div>
-</div>
-
-{% stylesheet %}
-.glitch-image {
-  position: relative;
-  overflow: hidden;
+{% comment %}
+  Renders an image with cyberpunk glitch effect
   
-  &:hover {
-    .glitch-image__glitch {
-      opacity: 1;
-    }
-    
-    .glitch-image__scan-line {
-      transform: translateY(100%);
-    }
-  }
+  Accepts:
+  - image: {Object} Image object from Shopify
+  - alt: {String} Alt text for the image
+  - class: {String} Additional classes (optional)
+  
+  Usage:
+  {% render 'glitch-image', image: product.featured_image, alt: product.title %}
+{% endcomment %}
+
+{%- liquid
+  assign img_id = image.id | append: '-' | append: 'glitch-effect'
+  unless class
+    assign class = ''
+  endunless
+-%}
+
+{% style %}
+.glitch-image-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
 }
 
-.glitch-image__glitch {
+.glitch-image-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%; /* 1:1 Aspect Ratio */
+  overflow: hidden;
+}
+
+.glitch-image {
   position: absolute;
-  inset: 0;
-  background: inherit;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch-image--original {
+  z-index: 1;
+}
+
+.glitch-image--clone {
+  z-index: 0;
+  opacity: 0;
   background-position: center;
   background-size: cover;
-  mix-blend-mode: difference;
-  opacity: 0;
-  transition: opacity 0.2s;
-  animation: glitch-anim 0.2s infinite;
-  pointer-events: none;
+  background-repeat: no-repeat;
 }
 
-.glitch-image__scan-line {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    transparent,
-    rgba(var(--glow-primary-rgb), 0.2),
-    transparent
-  );
-  transform: translateY(-100%);
-  transition: transform 1s linear;
-  pointer-events: none;
+.glitch-image-container:hover .glitch-image--clone:nth-child(2) {
+  opacity: 0.2;
+  transform: translate(3px, 0);
+  animation: glitch-anim-1 2.5s infinite linear alternate;
 }
 
-@keyframes glitch-anim {
-  0% { transform: translate(0) }
-  20% { transform: translate(-2px, 2px) }
-  40% { transform: translate(-2px, -2px) }
-  60% { transform: translate(2px, 2px) }
-  80% { transform: translate(2px, -2px) }
-  100% { transform: translate(0) }
+.glitch-image-container:hover .glitch-image--clone:nth-child(3) {
+  opacity: 0.2;
+  transform: translate(-3px, 0);
+  animation: glitch-anim-2 3s infinite linear alternate;
 }
-{% endstylesheet %}
+
+.glitch-image-container:hover .glitch-image--clone:nth-child(4) {
+  opacity: 0.2;
+  transform: translate(0, 3px);
+  animation: glitch-anim-3 2.8s infinite linear alternate;
+}
+
+.glitch-image-container:hover .glitch-image--clone:nth-child(5) {
+  opacity: 0.2;
+  transform: translate(0, -3px);
+  animation: glitch-anim-4 2.2s infinite linear alternate;
+}
+
+@keyframes glitch-anim-1 {
+  0% { transform: translate(0, 0); filter: hue-rotate(0deg); }
+  10% { transform: translate(-2px, 1px); filter: hue-rotate(20deg); }
+  20% { transform: translate(2px, -1px); filter: hue-rotate(40deg); }
+  30% { transform: translate(-1px, 2px); filter: hue-rotate(60deg); }
+  40% { transform: translate(1px, -2px); filter: hue-rotate(80deg); }
+  50% { transform: translate(0, 0); filter: hue-rotate(100deg); }
+  100% { transform: translate(0, 0); filter: hue-rotate(360deg); }
+}
+
+/* Other glitch animations follow similar patterns with different values */
+{% endstyle %}
+
+<div class="glitch-image-container {{ class }}">
+  <div class="glitch-image-wrapper">
+    <div class="glitch-image glitch-image--original">
+      <img 
+        src="{{ image | img_url: '600x' }}"
+        srcset="
+          {{ image | img_url: '300x' }} 300w,
+          {{ image | img_url: '600x' }} 600w,
+          {{ image | img_url: '900x' }} 900w
+        "
+        sizes="(min-width: 1040px) 33vw, (min-width: 768px) 50vw, 100vw"
+        alt="{{ alt | escape }}"
+        width="{{ image.width }}"
+        height="{{ image.height }}"
+        loading="lazy"
+        class="glitch-img"
+        id="{{ img_id }}"
+      >
+    </div>
+    <div class="glitch-image glitch-image--clone" aria-hidden="true"></div>
+    <div class="glitch-image glitch-image--clone" aria-hidden="true"></div>
+    <div class="glitch-image glitch-image--clone" aria-hidden="true"></div>
+    <div class="glitch-image glitch-image--clone" aria-hidden="true"></div>
+  </div>
+</div>

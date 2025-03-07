@@ -1,0 +1,62 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+:root {
+  --primary-color: #000000;
+  --secondary-color: #ffffff;
+  --accent-color: #5c6ac4;
+  --glitch-offset: 2px;
+}
+
+@font-face {
+  font-family: 'Rajdhani';
+  src: url('@fontsource/rajdhani/files/rajdhani-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Share Tech Mono';
+  src: url('@fontsource/share-tech-mono/files/share-tech-mono-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.cyber-button {
+  @apply relative inline-block px-6 py-3 bg-accent-color text-white;
+  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+    &::before {
+      opacity: 1;
+    }
+  }
+}
+
+.glitch-effect {
+  position: relative;
+  
+  &::before,
+  &::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
+  }
+
+  &::before {
+    animation: glitch-1 0.4s linear infinite;
+    text-shadow: 2px 0 #ff0000;
+  }
+
+  &::after {
+    animation: glitch-2 0.3s linear infinite;
+    text-shadow: -2px 0 #00ff00;
+  }
+}

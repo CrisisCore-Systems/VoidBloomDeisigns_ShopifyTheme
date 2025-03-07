@@ -48,34 +48,34 @@
   </div>
 </div>
 
-{% stylesheet %}
-.cart-item {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: var(--space-4);
-  padding: var(--space-4);
-  border-bottom: 1px solid rgba(var(--glow-primary-rgb), 0.2);
-  position: relative;
-}
+{% style %}
+  .cart-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    border-bottom: 1px solid rgba(var(--glow-primary-rgb), 0.2);
+    position: relative;
+  }
 
-.cart-item__image {
-  position: relative;
-  overflow: hidden;
-}
+  .cart-item__image {
+    position: relative;
+    overflow: hidden;
+  }
 
-.cart-item__image-glitch {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(var(--glow-primary-rgb), 0.2);
-  opacity: 0;
-  transition: opacity 0.2s;
-}
+  .cart-item__image-glitch {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(var(--glow-primary-rgb), 0.2);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
 
-.cart-item:hover .cart-item__image-glitch {
-  opacity: 1;
-  animation: glitch-anim 0.2s infinite;
-}
-{% endstylesheet %}
+  .cart-item:hover .cart-item__image-glitch {
+    opacity: 1;
+    animation: glitch-anim 0.2s infinite;
+  }
+{% endstyle %}

@@ -1,0 +1,354 @@
+/**
+ * Cyberpunk Footer Styles
+ *
+ * Styles for the site footer with cyberpunk aesthetics
+ */
+
+.footer {
+  position: relative;
+  padding: 60px 0 30px;
+  background-color: $bg-color;
+  color: $text-color;
+  overflow: hidden;
+  margin-top: 80px;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+      rgba($secondary-color, 0) 0%,
+      rgba($secondary-color, 0.5) 20%, 
+      rgba($secondary-color, 1) 50%, 
+      rgba($secondary-color, 0.5) 80%, 
+      rgba($secondary-color, 0) 100%
+    );
+    box-shadow: 0 0 15px rgba($secondary-color, 0.5);
+    z-index: 1;
+  }
+  
+  @media screen and (max-width: 767px) {
+    padding: 40px 0 20px;
+    margin-top: 60px;
+  }
+}
+
+.footer__inner {
+  position: relative;
+  z-index: 2;
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-bottom: 50px;
+  
+  @media screen and (max-width: 767px) {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.footer__title {
+  font-family: $font-display;
+  font-size: 1.2rem;
+  margin: 0 0 20px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: $secondary-color;
+  position: relative;
+  display: inline-block;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background-color: $primary-color;
+  }
+}
+
+.footer__text {
+  p {
+    margin: 0 0 15px;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.footer__menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer__menu-item {
+  margin-bottom: 10px;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.footer__menu-link {
+  color: $text-color;
+  text-decoration: none;
+  transition: all 0.2s;
+  position: relative;
+  padding-left: 15px;
+  
+  &::before {
+    content: '>';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: $primary-color;
+    opacity: 0;
+    transform: translateX(-5px);
+    transition: all 0.2s;
+  }
+  
+  &:hover {
+    color: $primary-color;
+    padding-left: 18px;
+    
+    &::before {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
+
+.footer__social-icons {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.footer__social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: $text-color;
+  border: 1px solid rgba($secondary-color, 0.5);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  
+  svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba($primary-color, 0.3);
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: -1;
+  }
+  
+  &:hover {
+    color: $bg-color;
+    border-color: $primary-color;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    
+    &::after {
+      transform: translateY(0);
+    }
+  }
+}
+
+// Newsletter
+.footer__column--newsletter {
+  .input-group {
+    display: flex;
+    margin-top: 20px;
+    
+    @media screen and (max-width: 767px) {
+      flex-direction: column;
+    }
+  }
+  
+  .input-group__field {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid rgba($secondary-color, 0.5);
+    background-color: rgba($bg-color, 0.8);
+    color: $text-color;
+    font-family: $font-main;
+    
+    &:focus {
+      outline: none;
+      border-color: $secondary-color;
+      box-shadow: 0 0 0 1px $secondary-color;
+    }
+    
+    @media screen and (max-width: 767px) {
+      margin-bottom: 10px;
+    }
+  }
+  
+  .btn {
+    margin-left: -2px;
+    
+    @media screen and (max-width: 767px) {
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+  
+  .form-error {
+    color: $primary-color;
+    margin-top: 10px;
+    font-size: 0.85rem;
+  }
+  
+  .form-success {
+    color: $secondary-color;
+    margin-top: 10px;
+  }
+}
+
+// Footer bottom
+.footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid rgba($secondary-color, 0.2);
+  font-size: 0.85rem;
+  
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+}
+
+.footer__copyright {
+  span + span {
+    margin-left: 10px;
+    
+    &::before {
+      content: '|';
+      margin-right: 10px;
+      opacity: 0.5;
+    }
+  }
+}
+
+.footer__payment-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.footer__payment-icon {
+  width: 38px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.footer__locale-selector,
+.footer__currency-selector {
+  margin-left: 20px;
+  min-width: 100px;
+  
+  @media screen and (max-width: 767px) {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+}
+
+// Grid effect in background
+.footer__grid-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(rgba($secondary-color, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba($secondary-color, 0.07) 1px, transparent 1px);
+  background-size: 30px 30px;
+  z-index: 0;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(to top, $bg-color, rgba($bg-color, 0));
+    pointer-events: none;
+  }
+}
+
+// Cyberpunk select styles for footer
+.cyberpunk-select-wrapper {
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid $secondary-color;
+    pointer-events: none;
+  }
+  
+  .cyber-select {
+    appearance: none;
+    width: 100%;
+    padding: 8px 28px 8px 10px;
+    background-color: rgba($bg-color, 0.8);
+    color: $text-color;
+    border: 1px solid rgba($secondary-color, 0.5);
+    font-size: 0.85rem;
+    
+    &:focus {
+      outline: none;
+      border-color: $secondary-color;
+    }
+    
+    option {
+      background-color: $bg-color;
+    }
+  }
+}

@@ -1,43 +1,43 @@
-<div class="loading-indicator" data-loading-indicator>
+{% comment %}
+  Renders a cyberpunk-styled loading indicator
+  
+  Usage:
+  {% render 'loading-indicator' %}
+{% endcomment %}
+
+<div class="loading-indicator" aria-hidden="true">
   <div class="loading-indicator__spinner"></div>
-  <div class="loading-indicator__text neon-text">{{ text | default: 'Loading...' }}</div>
 </div>
 
-{% stylesheet %}
-.loading-indicator {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-4);
-}
-
-.loading-indicator__spinner {
-  width: 40px;
-  height: 40px;
-  border: 2px solid transparent;
-  border-top-color: var(--glow-primary);
-  border-right-color: var(--glow-secondary);
-  border-radius: 50%;
-  animation: cyber-spin 1s linear infinite;
-}
-
-.loading-indicator__text {
-  font-family: var(--font-heading-family);
-  font-size: 1.2em;
-  animation: neon-pulse 1.5s ease-in-out infinite;
-}
-
-@keyframes cyber-spin {
-  0% {
-    transform: rotate(0deg);
-    border-width: 2px;
+{% style %}
+  .loading-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 100px;
   }
-  50% {
-    border-width: 1px;
+
+  .loading-indicator__spinner {
+    width: 40px;
+    height: 40px;
+    border: 2px solid transparent;
+    border-top: 2px solid var(--glow-primary);
+    border-right: 2px solid var(--glow-secondary);
+    border-bottom: 2px solid var(--glow-accent);
+    border-left: 2px solid var(--glow-primary);
+    border-radius: 50%;
+    animation: loading-spin 1s linear infinite;
+    box-shadow: 0 0 15px rgba(var(--glow-primary-rgb), 0.5);
   }
-  100% {
-    transform: rotate(360deg);
-    border-width: 2px;
+
+  @keyframes loading-spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
-}
-{% endstylesheet %}
+{% endstyle %}

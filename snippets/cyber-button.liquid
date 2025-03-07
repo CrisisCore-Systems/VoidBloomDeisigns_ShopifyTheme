@@ -1,58 +1,73 @@
-<button 
-  class="cyber-button {% if variant %}cyber-button--{{ variant }}{% endif %}"
-  type="{{ type | default: 'button' }}"
-  {{ attributes }}>
-  <span class="cyber-button__glitch"></span>
-  <span class="cyber-button__label">{{ label }}</span>
-  {% if icon %}
-    <span class="cyber-button__icon">{% render icon %}</span>
-  {% endif %}
-</button>
-
-{% stylesheet %}
-.cyber-button {
-  position: relative;
-  padding: 0.75em 1.5em;
-  background: var(--background-primary);
-  border: 1px solid var(--glow-primary);
-  color: var(--glow-primary);
-  font-family: var(--font-heading-family);
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  overflow: hidden;
-  transition: all 0.3s;
+{% comment %}
+  Renders a cyberpunk-styled button
   
-  &:hover {
-    background: var(--glow-primary);
-    color: var(--background-primary);
-    box-shadow: 0 0 20px rgba(var(--glow-primary-rgb), 0.5);
-    
-    .cyber-button__glitch {
-      opacity: 1;
-    }
+  Accepts:
+  - text: {String} Button text
+  - url: {String} Optional URL to link to
+  - class: {String} Optional additional classes
+  - disabled: {Boolean} Whether the button is disabled
+  
+  Usage:
+  {% render 'cyber-button', text: 'Add to cart' %}
+{% endcomment %}
+
+<div class="cyber-button {{ class }}">
+  {% if url %}
+    <a href="{{ url }}" class="cyber-button__link">
+      <span class="cyber-button__glitch" data-text="{{ text }}"></span>
+      <span class="cyber-button__text">{{ text }}</span>
+    </a>
+  {% else %}
+    <button type="button" {% if disabled %}disabled{% endif %} class="cyber-button__button">
+      <span class="cyber-button__glitch" data-text="{{ text }}"></span>
+      <span class="cyber-button__text">{{ text }}</span>
+    </button>
+  {% endif %}
+</div>
+
+{% style %}
+  .cyber-button {
+    position: relative;
+    display: inline-block;
+    min-width: 150px;
+    text-align: center;
+    margin: var(--space-2) 0;
   }
-}
 
-.cyber-button__glitch {
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: var(--glow-primary);
-  opacity: 0;
-  pointer-events: none;
-  animation: button-glitch 0.3s infinite;
-}
+  .cyber-button__link,
+  .cyber-button__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75em 1.5em;
+    background: transparent;
+    color: var(--text-color);
+    font-family: var(--font-heading-family);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.9rem;
+    border: 1px solid var(--glow-primary);
+    box-shadow: 0 0 5px var(--glow-primary), inset 0 0 5px var(--glow-primary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
 
-@keyframes button-glitch {
-  0% { clip-path: inset(50% 0 50% 0) }
-  5% { clip-path: inset(20% 0 80% 0) }
-  10% { clip-path: inset(80% 0 20% 0) }
-  15% { clip-path: inset(50% 0 50% 0) }
-  20% { clip-path: inset(70% 0 30% 0) }
-  25% { clip-path: inset(30% 0 70% 0) }
-  100% { clip-path: inset(50% 0 50% 0) }
-}
-{% endstylesheet %}
+  .cyber-button__glitch {
+    display: none;
+  }
+
+  .cyber-button:hover .cyber-button__link,
+  .cyber-button:hover .cyber-button__button {
+    background: rgba(var(--glow-primary-rgb), 0.1);
+    color: var(--glow-primary);
+    box-shadow: 0 0 10px var(--glow-primary), inset 0 0 10px var(--glow-primary);
+  }
+
+  .cyber-button:active .cyber-button__link,
+  .cyber-button:active .cyber-button__button {
+    background: rgba(var(--glow-primary-rgb), 0.2);
+  }
+{% endstyle %}

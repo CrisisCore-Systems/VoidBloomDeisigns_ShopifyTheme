@@ -1,0 +1,87 @@
+<div class="collection-grid" data-section-id="{{ section.id }}" data-section-type="collection-grid">
+  {% if section.settings.title != blank %}
+    <h2 class="section-title glitch-effect" data-text="{{ section.settings.title }}">
+      {{ section.settings.title }}
+    </h2>
+  {% endif %}
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-{{ section.settings.columns_desktop }} gap-6">
+    {% for block in section.blocks %}
+      {% if block.settings.collection != blank %}
+        <div class="collection-card" {{ block.shopify_attributes }}>
+          <a href="{{ block.settings.collection.url }}">
+            {% if block.settings.collection.image %}
+              {% render 'glitch-image', 
+                image: block.settings.collection.image,
+                alt: block.settings.collection.title
+              %}
+            {% endif %}
+            <div class="collection-info">
+              <h3>{{ block.settings.collection.title }}</h3>
+              {% if block.settings.show_product_count %}
+                <p>{{ block.settings.collection.products_count }} products</p>
+              {% endif %}
+            </div>
+          </a>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection Grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Collections"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "min": 2,
+      "max": 4,
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_product_count",
+          "label": "Show product count",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Grid",
+      "blocks": [
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

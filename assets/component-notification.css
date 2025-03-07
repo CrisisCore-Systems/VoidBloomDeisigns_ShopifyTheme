@@ -1,0 +1,31 @@
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 1rem;
+  background: var(--background-secondary);
+  border: 2px solid var(--neon-primary);
+  border-radius: 4px;
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+  z-index: 9999;
+  transform: translateY(150%);
+  transition: transform 0.3s ease;
+}
+
+.notification.active {
+  transform: translateY(0);
+}
+
+.notification__content {
+  color: var(--text-color);
+}
+
+.notification__close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+}

@@ -1,0 +1,46 @@
+<style>
+  :root {
+    --neon-primary: {{ settings.neon_primary }};
+    --neon-secondary: {{ settings.neon_secondary }};
+    --neon-accent: {{ settings.neon_accent }};
+    --background-primary: {{ settings.background_primary }};
+    --background-secondary: {{ settings.background_secondary }};
+    --text-color: {{ settings.text_color }};
+    
+    /* Convert colors to RGB format for rgba() usage */
+    --neon-primary-rgb: {{ settings.neon_primary | color_to_rgb | replace: 'rgb(', '' | replace: ')', '' }};
+    --neon-secondary-rgb: {{ settings.neon_secondary | color_to_rgb | replace: 'rgb(', '' | replace: ')', '' }};
+    --neon-accent-rgb: {{ settings.neon_accent | color_to_rgb | replace: 'rgb(', '' | replace: ')', '' }};
+    --background-primary-rgb: {{ settings.background_primary | color_to_rgb | replace: 'rgb(', '' | replace: ')', '' }};
+    --background-secondary-rgb: {{ settings.background_secondary | color_to_rgb | replace: 'rgb(', '' | replace: ')', '' }};
+    
+    /* Typography */
+    --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+    --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+    
+    /* Spacing */
+    --spacing-unit: 8px;
+    --spacing-tight: calc(var(--spacing-unit) * 1);
+    --spacing-base: calc(var(--spacing-unit) * 2);
+    --spacing-loose: calc(var(--spacing-unit) * 3);
+    --spacing-extra-loose: calc(var(--spacing-unit) * 5);
+    
+    /* Animation */
+    --animation-speed-fast: 0.2s;
+    --animation-speed-medium: 0.5s;
+    --animation-speed-slow: 1s;
+  }
+  
+  /* Base typography */
+  body {
+    font-family: var(--font-body);
+    color: var(--text-color);
+    background-color: var(--background-primary);
+    line-height: 1.5;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    margin-top: 0;
+  }
+</style>

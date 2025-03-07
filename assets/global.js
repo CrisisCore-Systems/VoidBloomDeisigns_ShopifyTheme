@@ -1,176 +1,87 @@
-// ...existing code...
-
-class CartPerformance {
-  static #metric_prefix = "cart-performance"
-
-  static createStartingMarker(benchmarkName) {
-    const metricName = `${CartPerformance.#metric_prefix}:${benchmarkName}`
-    return performance.mark(`${metricName}:start`);
-  }
-
-  static measureFromEvent(benchmarkName, event) {
-    const metricName = `${CartPerformance.#metric_prefix}:${benchmarkName}`
-    const startMarker = performance.mark(`${metricName}:start`, {
-      startTime: event.timeStamp
-    });
-
-    const endMarker = performance.mark(`${metricName}:end`);
-
-    performance.measure(
-      benchmarkName,
-      `${metricName}:start`,
-      `${metricName}:end`
-    );
-  }
-
-  static measureFromMarker(benchmarkName, startMarker) {
-    const metricName = `${CartPerformance.#metric_prefix}:${benchmarkName}`
-    const endMarker = performance.mark(`${metricName}:end`);
-
-    performance.measure(
-      benchmarkName,
-      startMarker.name,
-      `${metricName}:end`
-    );
-  }
-}
-
-/**
- * @typedef {Object} PerformanceMetrics
- * @property {number} startTime
- * @property {number} endTime
- * @property {string} name
- */
-
-class Logger {
-  static ERROR = 'error';
-  static WARN = 'warn';
-  static INFO = 'info';
-  
-  /**
-   * @param {string} message
-   * @param {string} level
-   * @param {Error} [error]
-   */
-  static log(message, level = Logger.INFO, error = null) {
-    const timestamp = new Date().toISOString();
-    const logMessage = `[${timestamp}] ${level.toUpperCase()}: ${message}`;
-    
-    if (process.env.NODE_ENV === 'development') {
-      console[level](logMessage, error || '');
-    }
-  }
-}
-
-class StateManager {
+class VariantSelects extends HTMLElement {
   constructor() {
-    this.state = new Map();
-    this.subscribers = new Map();
+    super();
+    this.addEventListener('change', this.onVariantChange.bind(this));
   }
 
-  /**
-   * @param {string} key
-   * @param {*} value
-   */
-  setState(key, value) {
-    this.state.set(key, value);
-    this.notify(key, value);
+  onVariantChange(event) {
+    const selectedOptions = this.selectedOptionValues;
+    this.updateProductDetails(selectedOptions);
   }
 
-  /**
-   * @param {string} key
-   * @returns {*}
-   */
-  getState(key) {
-    return this.state.get(key);
-  }
-
-  /**
-   * @param {string} key
-   * @param {Function} callback
-   * @returns {Function} Unsubscribe function
-   */
-  subscribe(key, callback) {
-    if (!this.subscribers.has(key)) {
-      this.subscribers.set(key, new Set());
-    }
-    this.subscribers.get(key).add(callback);
+  updateProductDetails(selectedOptions) {
+    // Logic to update product details based on selected options
+    console.log('Selected options:', selectedOptions);
     
-    return () => {
-      this.subscribers.get(key).delete(callback);
-    };
-  }
-
-  /**
-   * @private
-   */
-  notify(key, value) {
-    if (this.subscribers.has(key)) {
-      this.subscribers.get(key).forEach(callback => callback(value));
+    // Find the variant that matches all selected options
+    const variant = this.getVariantFromOptions(selectedOptions);
+    
+    if (variant) {
+      // Update price
+      this.updatePrice(variant);
+      
+      // Update availability
+      this.updateAvailability(variant);
+      
+      // Update URL with variant ID
+      this.updateURL(variant);
+      
+      // Dispatch event for other components
+      this.dispatchEvent(new CustomEvent('variant:changed', {
+        detail: {
+          variant: variant
+        },
+        bubbles: true
+      }));
     }
   }
-}
-
-class Cache {
-  constructor(ttl = 3600000) { // Default 1 hour TTL
-    this.cache = new Map();
-    this.ttl = ttl;
-  }
-
-  /**
-   * @param {string} key
-   * @param {*} value
-   */
-  set(key, value) {
-    this.cache.set(key, {
-      value,
-      timestamp: Date.now()
+  
+  getVariantFromOptions(selectedOptions) {
+    // This assumes product.variants is available in the scope
+    // You may need to adjust this based on how your data is structured
+    const variants = window.productVariants || [];
+    
+    return variants.find(variant => {
+      return selectedOptions.every(option => {
+        return variant.options.includes(option);
+      });
     });
   }
-
-  /**
-   * @param {string} key
-   * @returns {*}
-   */
-  get(key) {
-    const item = this.cache.get(key);
-    if (!item) return null;
-    
-    if (Date.now() - item.timestamp > this.ttl) {
-      this.cache.delete(key);
-      return null;
+  
+  updatePrice(variant) {
+    const priceElement = document.querySelector('.product-price');
+    if (priceElement && variant.price) {
+      priceElement.innerHTML = this.formatMoney(variant.price);
     }
-    
-    return item.value;
   }
-}
-
-// Initialize global instances
-window.stateManager = new StateManager();
-window.cache = new Cache();
-
-// ...existing code...
-
-/**
- * Enhanced trap focus with error handling
- * @param {HTMLElement} element
- * @param {HTMLElement} [elementToFocus]
- * @throws {Error}
- */
-function trapFocus(element, elementToFocus = element) {
-  try {
-    if (!element) throw new Error('No element provided to trap focus');
-    
-    const focusableElements = getFocusableElements(element);
-    if (focusableElements.length === 0) {
-      Logger.warn('No focusable elements found in trap focus container');
-      return;
+  
+  updateAvailability(variant) {
+    const availabilityElement = document.querySelector('.product-availability');
+    if (availabilityElement) {
+      if (variant.available) {
+        availabilityElement.innerHTML = 'In stock';
+        availabilityElement.classList.remove('unavailable');
+        availabilityElement.classList.add('available');
+      } else {
+        availabilityElement.innerHTML = 'Sold out';
+        availabilityElement.classList.remove('available');
+        availabilityElement.classList.add('unavailable');
+      }
     }
-
-    // ...existing trapFocus code...
+  }
+  
+  updateURL(variant) {
+    if (!variant) return;
     
-  } catch (error) {
-    Logger.log('Error in trapFocus', Logger.ERROR, error);
-    throw error;
+    window.history.replaceState(
+      {}, 
+      '', 
+      `${window.location.pathname}?variant=${variant.id}`
+    );
+  }
+  
+  formatMoney(cents) {
+    // Simple money formatting, you might want to use Shopify's money format
+    return `$${(cents / 100).toFixed(2)}`;
   }
 }

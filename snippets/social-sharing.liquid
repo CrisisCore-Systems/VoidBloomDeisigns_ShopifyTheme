@@ -1,0 +1,193 @@
+{% comment %}
+  Renders social sharing icons
+  
+  Accepts:
+  - share_title: {String} Title to share
+  - share_permalink: {String} URL to share
+  - share_image: {Object} Image object to share (optional)
+  
+  Usage:
+  {% render 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product.featured_media %}
+{% endcomment %}
+
+{%- liquid
+  assign share_url = shop.url | append: share_permalink
+  assign encoded_share_title = share_title | url_encode
+  assign encoded_share_url = share_url | url_encode
+  
+  if share_image
+    assign share_image_url = share_image | img_url: '800x' | prepend: 'https:' | url_encode
+  endif
+-%}
+
+<div class="social-sharing">
+  <ul class="social-sharing__list">
+    <!-- Facebook -->
+    <li class="social-sharing__item">
+      <a href="https://www.facebook.com/sharer.php?u={{ encoded_share_url }}" 
+        class="social-sharing__link social-sharing__link--facebook"
+        target="_blank" 
+        rel="noopener"
+        aria-label="{{ 'general.social.share_on_facebook' | t }}">
+        <svg aria-hidden="true" focusable="false" role="presentation" class="icon" viewBox="0 0 24 24">
+          <path d="M18.768 7.465h-4.268v-2.83c0-.85.638-1.058 1.06-1.058h2.144V.0065h-4.05c-3.982 0-4.862 2.98-4.862 4.886v2.572H6.032v4.01h2.76V19.99h5.708V11.46h3.41l.858-4.01z"/>
+        </svg>
+      </a>
+    </li>
+    
+    <!-- Twitter -->
+    <li class="social-sharing__item">
+      <a href="https://twitter.com/share?text={{ encoded_share_title }}&url={{ encoded_share_url }}" 
+        class="social-sharing__link social-sharing__link--twitter"
+        target="_blank" 
+        rel="noopener"
+        aria-label="{{ 'general.social.share_on_twitter' | t }}">
+        <svg aria-hidden="true" focusable="false" role="presentation" class="icon" viewBox="0 0 24 24">
+          <path d="M21.543 7.104c.015.211.015.423.015.636 0 6.507-4.954 14.01-14.01 14.01v-.003A13.94 13.94 0 0 1 0 19.539a9.88 9.88 0 0 0 7.287-2.041 4.93 4.93 0 0 1-4.6-3.42 4.916 4.916 0 0 0 2.223-.084A4.926 4.926 0 0 1 .96 9.167v-.062a4.887 4.887 0 0 0 2.235.616A4.928 4.928 0 0 1 1.67 3.148 13.98 13.98 0 0 0 11.818 8.3a4.929 4.929 0 0 1 8.39-4.49 9.868 9.868 0 0 0 3.128-1.196 4.941 4.941 0 0 1-2.165 2.724A9.828 9.828 0 0 0 24 4.555a10.019 10.019 0 0 1-2.457 2.549z"/>
+        </svg>
+      </a>
+    </li>
+    
+    <!-- Pinterest -->
+    <li class="social-sharing__item">
+      <a href="https://pinterest.com/pin/create/button/?url={{ encoded_share_url }}&media={{ share_image_url }}&description={{ encoded_share_title }}" 
+        class="social-sharing__link social-sharing__link--pinterest"
+        target="_blank" 
+        rel="noopener"
+        aria-label="{{ 'general.social.share_on_pinterest' | t }}">
+        <svg aria-hidden="true" focusable="false" role="presentation" class="icon" viewBox="0 0 24 24">
+          <path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/>
+        </svg>
+      </a>
+    </li>
+    
+    <!-- Email -->
+    <li class="social-sharing__item">
+      <a href="mailto:?subject={{ encoded_share_title }}&body={{ encoded_share_url }}" 
+        class="social-sharing__link social-sharing__link--email"
+        aria-label="{{ 'general.social.share_by_email' | t }}">
+        <svg aria-hidden="true" focusable="false" role="presentation" class="icon" viewBox="0 0 24 24">
+          <path d="M22 3H2C.9 3 0 3.9 0 5v14c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM20 19H4v-7h16v7zM20 9H4V5h16v4z"/>
+        </svg>
+      </a>
+    </li>
+    
+    <!-- Copy link -->
+    <li class="social-sharing__item">
+      <button type="button" 
+         class="social-sharing__link social-sharing__link--copy" 
+         data-copy-link="{{ share_url }}"
+         aria-label="{{ 'general.social.copy_link' | t }}">
+        <svg aria-hidden="true" focusable="false" role="presentation" class="icon" viewBox="0 0 24 24">
+          <path d="M17.5 14H19C20.1 14 21 13.1 21 12V5C21 3.9 20.1 3 19 3H12C10.9 3 10 3.9 10 5V7.5M5 10H12C13.1 10 14 10.9 14 12V19C14 20.1 13.1 21 12 21H5C3.9 21 3 20.1 3 19V12C3 10.9 3.9 10 5 10Z"/>
+        </svg>
+      </button>
+    </li>
+  </ul>
+</div>
+
+{% javascript %}
+  const copyButtons = document.querySelectorAll('[data-copy-link]');
+  
+  if (copyButtons.length > 0) {
+    copyButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const url = button.getAttribute('data-copy-link');
+        const tempInput = document.createElement('input');
+        
+        document.body.appendChild(tempInput);
+        tempInput.value = url;
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        
+        // Show feedback
+        const originalText = button.querySelector('.sr-only')?.textContent || '';
+        const originalHTML = button.innerHTML;
+        
+        button.classList.add('copied');
+        button.innerHTML = `
+          <svg aria-hidden="true" focusable="false" role="presentation" class="icon" viewBox="0 0 24 24">
+            <polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2"></polyline>
+          </svg>
+          <span class="sr-only">{{ 'general.social.link_copied' | t }}</span>
+        `;
+        
+        setTimeout(() => {
+          button.classList.remove('copied');
+          button.innerHTML = originalHTML;
+        }, 2000);
+      });
+    });
+  }
+{% endjavascript %}
+
+{% stylesheet %}
+.social-sharing {
+  margin: 1rem 0;
+}
+
+.social-sharing__list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 10px;
+}
+
+.social-sharing__item {
+  display: inline-block;
+}
+
+.social-sharing__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 0;
+  background: transparent;
+  border: 1px solid var(--secondary-color);
+  color: var(--text-color);
+  transition: all 0.2s;
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  
+  &:hover, &:focus {
+    background-color: rgba(var(--secondary-color-rgb), 0.1);
+    box-shadow: 0 0 8px rgba(var(--secondary-color-rgb), 0.5);
+    transform: translateY(-2px);
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(var(--primary-color-rgb), 0.2), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+  }
+  
+  &:hover::before {
+    transform: translateX(100%);
+  }
+  
+  svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+  
+  &.copied {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background-color: rgba(var(--primary-color-rgb), 0.1);
+  }
+}
+{% endstylesheet %}

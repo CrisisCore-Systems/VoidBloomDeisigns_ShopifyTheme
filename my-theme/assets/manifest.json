@@ -1,11 +1,12 @@
 {
-  "name": "Cyberpunk Store",
-  "short_name": "CyberStore",
-  "description": "Experience the future of shopping",
-  "start_url": "/",
+  "name": "VoidBloom Designs",
+  "short_name": "VoidBloom",
+  "description": "Cyberpunk-Inspired Digital Fashion & Tech Accessories",
+  "start_url": "/?source=pwa",
   "display": "standalone",
   "background_color": "#030303",
   "theme_color": "#00FF41",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "icon-192x192.png",
@@ -16,6 +17,13 @@
       "src": "icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "View Cart",
+      "url": "/cart",
+      "description": "View your shopping cart"
     }
   ]
 }
