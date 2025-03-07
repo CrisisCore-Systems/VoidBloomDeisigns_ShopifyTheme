@@ -1,1 +1,48 @@
-{% section 'collection-template' %}
+{% comment %}
+  VoidBloom Collection Template Section
+{% endcomment %}
+<section class="collection-template voidbloom-collection">
+  <header class="collection-header">
+    <h1 class="collection-title neon-text">{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <div class="collection-description neon-text">
+        {{ collection.description }}
+      </div>
+    {% endif %}
+  </header>
+
+  {% if collection.products_count > 0 %}
+    <div class="collection-grid">
+      {% for product in collection.products %}
+        <div class="collection-product-item">
+          <a href="{{ product.url }}" class="product-link">
+            <div class="product-image neon-border">
+              {% if product.featured_image %}
+                <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+              {% else %}
+                <div class="placeholder-image">No Image</div>
+              {% endif %}
+            </div>
+            <div class="product-info">
+              <h2 class="product-title neon-text">{{ product.title }}</h2>
+              <p class="product-price">{{ product.price | money }}</p>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% if collection.products_count > collection.products.size %}
+      <div class="pagination neon-text">
+        {{ paginate | default_pagination }}
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="empty-collection neon-text">
+      <p>{{ 'collection.no_products' | t }}</p>
+    </div>
+  {% endif %}
+</section>
+{% comment %}
+  End VoidBloom Collection Template Section
+{% endcomment %}
