@@ -1,3 +1,52 @@
-{% section 'hero' %}
-{% section 'featured-collection' %}
-{% section 'newsletter' %}
+<!DOCTYPE html>
+<html lang="{{ shop.locale }}" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="{{ settings.background_primary }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  <title>
+    {{ page_title }}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
+
+  <!-- Main Stylesheet (includes VoidBloom customizations) -->
+  {{ 'main.scss' | asset_url | stylesheet_tag }}
+
+  <!-- Additional Shopify header content -->
+  {{ content_for_header }}
+
+  <!-- Remove the 'no-js' class when JavaScript is enabled -->
+  <script>
+    document.documentElement.classList.remove('no-js');
+  </script>
+</head>
+
+<body class="voidbloom-home-page cyberpunk-theme template-index">
+  {% section 'announcement' %}
+  {% section 'header' %}
+
+  <main id="MainContent" role="main" class="page-width">
+    <div class="voidbloom-home-wrapper">
+      <!-- Hero Section with neon/glitch styling -->
+      <div class="voidbloom-section voidbloom-hero">
+        {% section 'hero' %}
+      </div>
+
+      <!-- Featured Collection Section with cyber accents -->
+      <div class="voidbloom-section voidbloom-featured-collection">
+        {% section 'featured-collection' %}
+      </div>
+
+      <!-- Newsletter Section with futuristic call-to-action -->
+      <div class="voidbloom-section voidbloom-newsletter">
+        {% section 'newsletter' %}
+      </div>
+    </div>
+  </main>
+
+  {% section 'footer' %}
+  {% section 'cart-drawer' %}
+  {% section 'popups' %}
+</body>
+</html>
