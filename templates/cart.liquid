@@ -1,1 +1,37 @@
-{% section 'cart-template' %}
+{% comment %} Begin VoidBloom Cart Template Section {% endcomment %}
+<section class="cart-template voidbloom-cart">
+  <header class="voidbloom-cart-header">
+    <h1 class="voidbloom-heading neon-text">{{ 'cart.title' | t }}</h1>
+  </header>
+
+  {% if cart.item_count > 0 %}
+    <ul class="voidbloom-cart-items">
+      {% for item in cart.items %}
+        <li class="voidbloom-cart-item">
+          <div class="voidbloom-item-image">
+            <img src="{{ item.image | img_url: 'small' }}" alt="{{ item.product.title }}" class="voidbloom-img">
+          </div>
+          <div class="voidbloom-item-details">
+            <h2 class="voidbloom-item-title">{{ item.product.title }}</h2>
+            <p class="voidbloom-item-info">
+              {{ item.quantity }} x {{ item.price | money }}
+            </p>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+    <div class="voidbloom-cart-total neon-border">
+      <p class="total-text">Total: {{ cart.total_price | money }}</p>
+    </div>
+    <div class="voidbloom-cart-actions">
+      <a href="/checkout" class="btn neon-btn-checkout">Checkout</a>
+      <a href="/collections/all" class="btn neon-btn-shop">Continue Shopping</a>
+    </div>
+  {% else %}
+    <div class="voidbloom-empty-cart">
+      <p class="empty-cart-text neon-text">{{ 'cart.empty' | t }}</p>
+      <a href="/" class="btn neon-btn-home">Return Home</a>
+    </div>
+  {% endif %}
+</section>
+{% comment %} End VoidBloom Cart Template Section {% endcomment %}
