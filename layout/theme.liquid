@@ -1,121 +1,122 @@
-<!DOCTYPE html>
-<html lang="{{ shop.locale }}" class="no-js">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="{{ settings.background_primary }}">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="{{ canonical_url }}">
-
-  <title>
-    {{ page_title }}
-    {% if current_tags %}
-      {% assign meta_tags = current_tags | join: ', ' %}
-      &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}
-    {% endif %}
-    {% if current_page != 1 %}
-      &ndash; {{ 'general.meta.page' | t: page: current_page }}
-    {% endif %}
-    {% unless page_title contains shop.name %}
-      &ndash; {{ shop.name }}
-    {% endunless %}
-  </title>
-
-  {% if page_description %}
-    <meta name="description" content="{{ page_description | escape }}">
-  {% else %}
-    <meta name="description" content="{{ shop.description | escape }}">
-  {% endif %}
-
-  <!-- Open Graph Tags -->
-  <meta property="og:site_name" content="{{ shop.name }}">
-  <meta property="og:title" content="{{ page_title }}">
-  {% if page_description %}
-    <meta property="og:description" content="{{ page_description | escape }}">
-  {% else %}
-    <meta property="og:description" content="{{ shop.description | escape }}">
-  {% endif %}
-  <meta property="og:url" content="{{ canonical_url }}">
-  <!-- Add an og:image tag here if you have a default social share image -->
-
-  <!-- Favicon -->
-  <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png">
-
-  <!-- Shopify-Hosted Fonts -->
-  <style>
-    /* Rajdhani Font */
-    @font-face {
-      font-family: 'Rajdhani';
-      src: url('{{ "rajdhani.woff2" | asset_url }}') format('woff2'),
-           url('{{ "rajdhani.woff" | asset_url }}') format('woff');
-      font-weight: 400;
-      font-style: normal;
-    }
-    /* Orbitron Font */
-    @font-face {
-      font-family: 'Orbitron';
-      src: url('{{ "orbitron.woff2" | asset_url }}') format('woff2'),
-           url('{{ "orbitron.woff" | asset_url }}') format('woff');
-      font-weight: 400;
-      font-style: normal;
-    }
-    /* Share Tech Mono Font */
-    @font-face {
-      font-family: 'Share Tech Mono';
-      src: url('{{ "share-tech-mono.woff2" | asset_url }}') format('woff2'),
-           url('{{ "share-tech-mono.woff" | asset_url }}') format('woff');
-      font-weight: 400;
-      font-style: normal;
-    }
-  </style>
-
-  <!-- Main Stylesheet (includes VoidBloom customizations) -->
-  {{ 'main.scss' | asset_url | stylesheet_tag }}
-
-  <!-- Pass Theme Settings & Strings to JavaScript -->
-  <script>
-    window.theme = window.theme || {};
-    window.theme.settings = {
-      primary_color: {{ settings.primary_color | json }},
-      secondary_color: {{ settings.secondary_color | json }},
-      accent_color: {{ settings.accent_color | json }},
-      layout_width: {{ settings.layout_width | json }},
-      animations_enabled: {{ settings.animations_enabled | json }}
-    };
-    window.theme.strings = {
-      addToCart: {{ 'products.product.add_to_cart' | t | json }},
-      soldOut: {{ 'products.product.sold_out' | t | json }},
-      unavailable: {{ 'products.product.unavailable' | t | json }}
-    };
-    window.theme.moneyFormat = {{ shop.money_format | json }};
-    // Custom VoidBloom variable for neon-cyber branding
-    window.theme.brand = "VoidBloom";
-    document.documentElement.classList.remove('no-js');
-  </script>
-
-  <!-- Theme Script (Deferred for Performance) -->
-  <script src="{{ 'theme.js' | asset_url }}" defer></script>
-
-  <!-- Additional scripts injected by Shopify or apps -->
-  {{ content_for_header }}
-</head>
-
-<body class="voidbloom-theme cyberpunk-theme template-{{ template.name | handle }} {{ template.suffix }}">
-  <!-- Decorative overlays for neon glitch effects -->
-  <div class="voidbloom-noise-overlay noise-overlay" aria-hidden="true"></div>
-  <div class="voidbloom-glitch-lines glitch-lines" aria-hidden="true"></div>
+<!doctype html>
+  <html class="js" lang="{{ request.locale.iso_code }}">
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta name="theme-color" content="{{ settings.theme_color | default: '#000000' }}">
+      <link rel="canonical" href="{{ canonical_url }}">
   
-  <!-- Theme Sections -->
-  {% section 'announcement' %}
-  {% section 'header' %}
-
-  <main id="MainContent" role="main" class="voidbloom-main-content main-content" tabindex="-1">
-    {{ content_for_layout }}
-  </main>
-
-  {% section 'footer' %}
-  {% section 'cart-drawer' %}
-  {% section 'popups' %}
-</body>
-</html>
+      {% if settings.favicon != blank %}
+        <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+      {% endif %}
+  
+      {% unless settings.type_header_font.system? and settings.type_body_font.system? %}
+        <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+      {% endunless %}
+  
+      <title>
+        {{ page_title }}
+        {% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}
+        {% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}
+        {% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+      </title>
+  
+      {% if page_description %}
+        <meta name="description" content="{{ page_description | escape }}">
+      {% endif %}
+  
+      {%- render 'meta-tags' -%}
+  
+      <!-- Social Sharing OG Tags -->
+      <meta property="og:title" content="{{ page_title }}">
+      <meta property="og:description" content="{{ page_description }}">
+      <meta property="og:url" content="{{ shop.url }}">
+      {% if settings.social_sharing_image != blank %}
+        <meta property="og:image" content="{{ settings.social_sharing_image | image_url }}">
+      {% endif %}
+  
+      <!-- Preload Fonts -->
+      {% unless settings.type_body_font.system? %}
+        <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
+      {% endunless %}
+      {% unless settings.type_header_font.system? %}
+        <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
+      {% endunless %}
+  
+      {{ 'base.css' | asset_url | stylesheet_tag }}
+      {{ 'theme.css' | asset_url | stylesheet_tag }}
+      {{ 'main-custom.css' | asset_url | stylesheet_tag }}
+  
+      <!-- Optional Critical CSS Split Here -->
+  
+      {% if settings.cart_type == 'drawer' %}
+        {{ 'component-cart-drawer.css' | asset_url | stylesheet_tag }}
+        {{ 'component-cart.css' | asset_url | stylesheet_tag }}
+      {% endif %}
+  
+      {% if localization.available_countries.size > 1 or localization.available_languages.size > 1 %}
+        {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}
+        <script src="{{ 'localization-form.js' | asset_url }}" defer></script>
+      {% endif %}
+  
+      {{ content_for_header }}
+  
+      <!-- Scripts -->
+      <script src="{{ 'global.js' | asset_url }}" defer></script>
+      <script src="{{ 'details-modal.js' | asset_url }}" defer></script>
+      {% if settings.animations_reveal_on_scroll %}
+        <script src="{{ 'animations.js' | asset_url }}" defer></script>
+      {% endif %}
+  
+      <!-- Shopify Design Mode -->
+      <script>
+        if (Shopify.designMode) {
+          document.documentElement.classList.add('shopify-design-mode');
+        }
+      </script>
+    </head>
+  
+    <body class="gradient{% if settings.enable_high_contrast %} high-contrast{% endif %}">
+  
+      <a class="skip-to-content-link button visually-hidden" href="#MainContent">{{ 'accessibility.skip_to_text' | t }}</a>
+  
+      {% if settings.cart_type == 'drawer' %}
+        {% render 'cart-drawer' %}
+      {% endif %}
+  
+      {% section 'header-group' %}
+  
+      <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+        {{ content_for_layout }}
+      </main>
+  
+      {% section 'footer-group' %}
+  
+      <!-- Accessibility -->
+      <ul hidden>
+        <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
+        <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
+      </ul>
+  
+      <!-- Dynamic Shopify Data -->
+      <script>
+        window.shopUrl = '{{ request.origin }}';
+        window.routes = {
+          cart_add_url: '{{ routes.cart_add_url }}',
+          cart_update_url: '{{ routes.cart_update_url }}',
+          cart_url: '{{ routes.cart_url }}',
+          predictive_search_url: '{{ routes.predictive_search_url }}'
+        };
+      </script>
+  
+      {% if settings.predictive_search_enabled %}
+        <script src="{{ 'predictive-search.js' | asset_url }}" defer></script>
+      {% endif %}
+      {% if settings.cart_type == 'drawer' %}
+        <script src="{{ 'cart-drawer.js' | asset_url }}" defer></script>
+      {% endif %}
+  
+    </body>
+  </html>
+  
