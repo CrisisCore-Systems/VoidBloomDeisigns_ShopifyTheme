@@ -10,11 +10,7 @@
               <div class="product-gallery__item{% if forloop.first %} active{% endif %}" data-media-id="{{ media.id }}">
                 {% case media.media_type %}
                   {% when 'image' %}
-                    {% render 'glitch-image',
-                      image: media,
-                      alt: media.alt | escape,
-                      class: 'product-gallery__image'
-                    %}
+                    {% render 'glitch-image', image: media, alt: media.alt, class: 'product-gallery__image' %}
                     
                     {% if section.settings.enable_image_zoom %}
                       <div class="product-gallery__zoom" 
@@ -322,3 +318,19 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {% render 'glitch-image',
+                          image: media,
+                          alt: media.alt | escape,
+                          class: 'product-gallery__image'
+                        %}
+  to: "{% render 'glitch-image', image: media, alt: media.alt, class: 'product-gallery__image'
+    %}"
+  position: 665..755
+{% endcomment %}
